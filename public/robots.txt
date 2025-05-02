@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://spencecreations.co.ke/sitemap.xml

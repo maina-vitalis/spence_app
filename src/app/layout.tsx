@@ -20,10 +20,13 @@ export const metadata: Metadata = {
     "responsive websites",
     "custom web applications",
     "digital solutions",
+    "graphic design",
+    "photoshop",
+    "illustrator",
   ],
   authors: [{ name: "Spence Creations's Team" }],
-  creator: "Spence Creation",
-  publisher: "Spence Creation",
+  creator: "Spence Creations",
+  publisher: "Spence Creations",
   formatDetection: {
     email: false,
     address: false,
@@ -64,6 +67,9 @@ export const metadata: Metadata = {
       "Professional web development and design services specializing in modern, responsive websites, e-commerce solutions, and custom web applications.",
     images: ["/logo.png"],
     creator: "@spencecreations",
+  },
+  alternates: {
+    canonical: "https://spencecreations.co.ke",
   },
 };
 

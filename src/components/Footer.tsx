@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { MapPin, Phone, Mail } from "lucide-react";
 
-import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import Image from "next/image";
 import logo from "./../../public/logo.png";
@@ -44,6 +44,14 @@ export default function Footer() {
               className="bg-primary rounded-full p-2 flex items-center justify-center hover:opacity-90 transition-opacity text-xs"
             >
               <FaInstagram size={10} className="text-white" />
+            </Link>
+
+            <Link
+              href="https://wa.me/254799732696"
+              target="_blank"
+              className="bg-primary rounded-full p-2 flex items-center justify-center hover:opacity-90 transition-opacity text-xs"
+            >
+              <FaWhatsapp size={10} className="text-white" />
             </Link>
           </div>
         </div>
@@ -99,11 +107,15 @@ export default function Footer() {
             </li>
             <li className="flex items-center">
               <Phone className="text-primary mr-3 flex-shrink-0" size={18} />
-              <span className="text-xs">+254 712 345 678</span>
+              <a href="tel:+254799732696" className="text-xs">
+                +254 799 732 696
+              </a>
             </li>
             <li className="flex items-center">
               <Mail className="text-primary mr-3 flex-shrink-0" size={18} />
-              <span className="text-xs">info@spencecreation.co.ke</span>
+              <a href="mailto:info@spencecreations.co.ke" className="text-xs">
+                info@spencecreations.co.ke
+              </a>
             </li>
           </ul>
         </div>

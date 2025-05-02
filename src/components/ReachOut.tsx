@@ -99,7 +99,7 @@ function ReachOut() {
                 variants={formAnimation}
                 className="flex flex-col gap-5 md:flex-row"
               >
-                <motion.div variants={inputAnimation}>
+                <motion.div className="flex-1" variants={inputAnimation}>
                   <FormField
                     name="name"
                     control={form.control}
@@ -120,7 +120,7 @@ function ReachOut() {
                   />
                 </motion.div>
 
-                <motion.div variants={inputAnimation}>
+                <motion.div className="flex-1" variants={inputAnimation}>
                   <FormField
                     name="email"
                     control={form.control}
@@ -147,7 +147,7 @@ function ReachOut() {
                   name="message"
                   control={form.control}
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="w-full">
                       <FormLabel>Message</FormLabel>
                       <FormControl>
                         <Textarea

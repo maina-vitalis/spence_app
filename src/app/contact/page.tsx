@@ -8,15 +8,15 @@ import { Separator } from "@/components/ui/separator";
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 }
+  transition: { duration: 0.5 },
 };
 
 const staggerContainer = {
   animate: {
     transition: {
-      staggerChildren: 0.1
-    }
-  }
+      staggerChildren: 0.1,
+    },
+  },
 };
 
 export default function ContactPage() {
@@ -29,7 +29,7 @@ export default function ContactPage() {
         transition={{ duration: 0.6 }}
         className="mx-auto mt-6 space-y-10"
       >
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
@@ -54,14 +54,17 @@ export default function ContactPage() {
           </div>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           variants={staggerContainer}
           initial="initial"
           animate="animate"
           className="flex justify-center gap-5 flex-wrap"
         >
           {/* Location Card */}
-          <motion.div
+          <motion.a
+            href="https://www.google.com/maps?q=Spence+Creations+Westlands+Nairobi+Kenya"
+            target="_blank"
+            rel="noopener noreferrer"
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
             className="shadow-sm p-5 rounded-3xl space-y-5 sm:w-56 min-w-56 w-full bg-orange-100/50 dark:bg-orange-900/50"
@@ -77,10 +80,11 @@ export default function ContactPage() {
               <p>Spence Creations</p>
               <p>Westlands, Nairobi, Kenya</p>
             </div>
-          </motion.div>
+          </motion.a>
 
           {/* Call Card */}
-          <motion.div
+          <motion.a
+            href="tel:+254799732696"
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
             className="shadow-sm p-5 rounded-3xl space-y-5 sm:w-56 min-w-56 w-full bg-green-100/50 dark:bg-green-900/50"
@@ -96,10 +100,11 @@ export default function ContactPage() {
               <p>Call or whatsapp</p>
               <p>+254 799 732 696</p>
             </div>
-          </motion.div>
+          </motion.a>
 
           {/* Mail Card */}
-          <motion.div
+          <motion.a
+            href="mailto:info@spencecreations.co.ke"
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
             className="shadow-sm p-5 rounded-3xl space-y-5 sm:w-56 min-w-56 w-full bg-blue-100/50 dark:bg-blue-900/50"
@@ -115,7 +120,7 @@ export default function ContactPage() {
               <p>info@spencecreations.co.ke</p>
               <p>mainavitalis65@gmail.com</p>
             </div>
-          </motion.div>
+          </motion.a>
 
           {/* Working Hours */}
           <motion.div
