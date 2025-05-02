@@ -60,10 +60,10 @@ export function Ecommerce() {
           </h1>
         </span>
 
-        <p className="font-light text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-          We build robust ecommerce platforms tailored for your business,
-          featuring seamless online shopping experiences, secure payment
-          integration, and efficient product management.
+        <p className="font-light text-sm leading-relaxed text-gray-700 dark:text-gray-300 min-h-[60px]">
+          Building robust ecommerce platforms with seamless shopping
+          experiences. Features include secure payments, efficient product
+          management, and scalable solutions.
         </p>
       </div>
     </div>

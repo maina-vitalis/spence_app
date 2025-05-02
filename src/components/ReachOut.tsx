@@ -3,6 +3,7 @@
 import z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
 import {
   Form,
   FormControl,
@@ -19,6 +20,23 @@ import axios from "axios";
 import { toast } from "sonner";
 import LoadingButton from "./LoadingButton";
 import { ShineBorder } from "./magicui/shine-border";
+
+const formAnimation = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const inputAnimation = {
+  hidden: { opacity: 0, x: -20 },
+  show: { opacity: 1, x: 0 },
+};
 
 function ReachOut() {
   const formSchema = z.object({
@@ -55,26 +73,86 @@ function ReachOut() {
   const onSubmit = (data: formTypes) => {
     mutate(data);
   };
+
   return (
-    <div className="rounded-lg p-5">
-      <h2 className="text-center font-semibold text-xl mb-3">Get in touch</h2>
+    <div className="rounded-lg">
+      <motion.h2
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="text-center font-semibold text-xl mb-3"
+      >
+        Get in touch
+      </motion.h2>
       <div className="flex flex-col gap-10 md:flex-row">
         <div className="w-full md:max-w-[950px] mx-auto rounded-2xl p-5 relative">
           <ShineBorder shineColor={["#2B7FFF"]} />
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <div className="flex flex-col gap-5 md:flex-row">
+            <motion.form
+              variants={formAnimation}
+              initial="hidden"
+              animate="show"
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4"
+            >
+              <motion.div
+                variants={formAnimation}
+                className="flex flex-col gap-5 md:flex-row"
+              >
+                <motion.div variants={inputAnimation}>
+                  <FormField
+                    name="name"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            className="bg-white placeholder:text-xs"
+                            placeholder="john doe"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+
+                <motion.div variants={inputAnimation}>
+                  <FormField
+                    name="email"
+                    control={form.control}
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input
+                            type="text"
+                            className="bg-white placeholder:text-xs"
+                            placeholder="johndoe@email.com"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </motion.div>
+              </motion.div>
+
+              <motion.div variants={inputAnimation}>
                 <FormField
-                  name="name"
+                  name="message"
                   control={form.control}
                   render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Name</FormLabel>
+                    <FormItem>
+                      <FormLabel>Message</FormLabel>
                       <FormControl>
-                        <Input
-                          type="text"
-                          className="bg-white"
-                          placeholder="john doe"
+                        <Textarea
+                          className="bg-white placeholder:text-xs"
+                          placeholder="Message"
                           {...field}
                         />
                       </FormControl>
@@ -82,48 +160,18 @@ function ReachOut() {
                     </FormItem>
                   )}
                 />
-                <FormField
-                  name="email"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          className="bg-white"
-                          placeholder="johndoe@email.com"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              </motion.div>
 
-              <FormField
-                name="message"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Message</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        className="bg-white"
-                        placeholder="Message"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <LoadingButton loading={isPending} className="w-full">
-                Submit
-              </LoadingButton>
-            </form>
+              <motion.div
+                variants={inputAnimation}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+              >
+                <LoadingButton loading={isPending} className="w-full">
+                  Submit
+                </LoadingButton>
+              </motion.div>
+            </motion.form>
           </Form>
         </div>
       </div>

@@ -5,12 +5,12 @@ import {
   SheetContent,
   SheetHeader,
   SheetTrigger,
-} from "./ui/sheet";
+} from "../ui/sheet";
 import { LinkIcon, Menu } from "lucide-react";
 import Link from "next/link";
-import { ThemeToggle } from "./ThemeToggle";
-import { Separator } from "./ui/separator";
+import { Separator } from "../ui/separator";
 import { motion } from "framer-motion";
+import { ThemeToggle } from "./ThemeToggle";
 
 const container = {
   hidden: { opacity: 0 },
@@ -46,7 +46,7 @@ function Mobile() {
         side={"right"}
         className="rounded-l-2xl  border-primary bg-background/10 backdrop-blur-sm px-3"
       >
-        <SheetHeader className="mb-6 text-start">
+        <SheetHeader className="text-start">
           <p className="font-bold text-xl text-primary text-center">
             Spence creation
           </p>
@@ -55,19 +55,19 @@ function Mobile() {
           variants={container}
           initial="hidden"
           animate="show"
-          className="space-y-4 flex flex-col"
+          className="space-y-2 flex flex-col"
         >
           <motion.div variants={item}>
             <SheetClose asChild>
               <Link
                 href="/about-us"
-                className="w-full p-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
+                className="w-full p-2 px-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
               >
                 <span>
                   <p className="text-sm font-semibold">About Us</p>
                   <p className="text-xs">Learn about our team and vision</p>
                 </span>
-                <LinkIcon size={18} strokeWidth={2} />
+                <LinkIcon size={15} strokeWidth={2} />
               </Link>
             </SheetClose>
           </motion.div>
@@ -78,13 +78,13 @@ function Mobile() {
             <SheetClose asChild>
               <Link
                 href="/#services"
-                className="w-full p-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
+                className="w-full p-2 px-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
               >
                 <span>
                   <p className="text-sm font-semibold">Services</p>
                   <p className="text-xs">Explore what we offer</p>
                 </span>
-                <LinkIcon size={18} strokeWidth={2} />
+                <LinkIcon size={15} />
               </Link>
             </SheetClose>
           </motion.div>
@@ -95,13 +95,13 @@ function Mobile() {
             <SheetClose asChild>
               <Link
                 href="/projects"
-                className="w-full p-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
+                className="w-full p-2 px-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
               >
                 <span>
                   <p className="text-sm font-semibold">Projects</p>
                   <p className="text-xs">View our latest work</p>
                 </span>
-                <LinkIcon size={18} strokeWidth={2} />
+                <LinkIcon size={15} />
               </Link>
             </SheetClose>
           </motion.div>
@@ -112,7 +112,7 @@ function Mobile() {
             <SheetClose asChild>
               <Link
                 href="/contact"
-                className="w-full p-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
+                className="w-full p-2 px-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
               >
                 <span>
                   <p className="text-sm font-semibold">Contact us</p>

@@ -17,7 +17,7 @@ export function UiDesign() {
       />
       <AspectRatio
         ratio={16 / 9}
-        className="relative w-full max-w-2xl rounded-xl overflow-hidden bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-900/50"
+        className="relative w-full rounded-xl overflow-hidden bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-900/50"
       >
         {/* Header Bar */}
         <div className="bg-gradient-to-r from-orange-600 to-orange-500 dark:from-orange-800 dark:to-orange-700 p-4 flex justify-between items-center">
@@ -53,11 +53,10 @@ export function UiDesign() {
           </h1>
         </span>
 
-        <p className="font-light text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-          We create visually stunning and intuitive user interfaces that enhance
-          user engagement and brand identity. Our UI/UX design services focus on
-          usability, accessibility, and seamless interaction, ensuring your
-          digital products are both beautiful and easy to use.
+        <p className="font-light text-sm leading-relaxed text-gray-700 dark:text-gray-300 min-h-[60px]">
+          Creating visually stunning and intuitive user interfaces that enhance
+          user engagement. Our designs focus on usability, accessibility, and
+          seamless interaction.
         </p>
       </div>
     </div>

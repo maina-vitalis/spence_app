@@ -7,6 +7,7 @@ import { MdOutlineDesignServices } from "react-icons/md";
 import { BiSupport } from "react-icons/bi";
 import vitalis from "./../../../public/vitalis.png";
 import { ShineBorder } from "@/components/magicui/shine-border";
+import { motion } from "framer-motion";
 
 export default function AboutUsPage() {
   const [isClient, setIsClient] = useState(false);
@@ -14,11 +15,35 @@ export default function AboutUsPage() {
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 },
+  };
+
+  const staggerCards = {
+    container: {
+      animate: { transition: { staggerChildren: 0.2 } },
+    },
+    item: {
+      initial: { opacity: 0, x: -20 },
+      animate: { opacity: 1, x: 0 },
+      transition: { duration: 0.5 },
+    },
+  };
+
   return (
     <main className="min-h-screen">
       {/* Introduction Section */}
-      <section className="py-16 px-4 max-w-7xl mx-auto">
-        <div className="flex flex-col items-center text-center">
+      <section className="py-16 max-w-7xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col items-center text-center"
+        >
           <div className="flex gap-2 items-center mb-1">
             <div className="w-1 h-1 rounded-full bg-blue-500" />
             <p className="text-sm">About us</p>
@@ -36,10 +61,20 @@ export default function AboutUsPage() {
             <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
             <div className="w-8 h-px bg-gradient-to-l from-transparent to-blue-600/50"></div>
           </div>
-        </div>
+        </motion.div>
+
         {/* Feature Cards */}
-        <div className="flex justify-between flex-col md:flex-row gap-6 mt-16">
-          <div className="p-4 rounded-4xl flex items-center gap-5 relative">
+        <motion.div
+          variants={staggerCards.container}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true }}
+          className="flex justify-between flex-col md:flex-row gap-6 mt-16"
+        >
+          <motion.div
+            variants={staggerCards.item}
+            className="p-4 rounded-4xl flex items-center gap-5 relative"
+          >
             <ShineBorder shineColor={["#22c55e"]} />
             <div className="p-4 bg-green-500 rounded-full flex items-center justify-center">
               <FaHandshakeSimple size={30} className="text-white" />
@@ -54,9 +89,12 @@ export default function AboutUsPage() {
                 project lifecycle.
               </p>
             </div>
-          </div>
+          </motion.div>
 
-          <div className=" p-4 rounded-4xl flex items-center gap-5 relative">
+          <motion.div
+            variants={staggerCards.item}
+            className="p-4 rounded-4xl flex items-center gap-5 relative"
+          >
             <ShineBorder shineColor={["#2B7FFF"]} />
             <div className="p-4 bg-primary rounded-full flex items-center justify-center">
               <MdOutlineDesignServices size={30} className="text-white" />
@@ -71,9 +109,12 @@ export default function AboutUsPage() {
                 satisfaction.
               </p>
             </div>
-          </div>
+          </motion.div>
 
-          <div className=" p-4 rounded-4xl flex items-center gap-5 relative">
+          <motion.div
+            variants={staggerCards.item}
+            className="p-4 rounded-4xl flex items-center gap-5 relative"
+          >
             <ShineBorder shineColor={["#F54A00"]} />
             <div className="p-4 bg-orange-600 rounded-full flex items-center justify-center">
               <BiSupport size={30} className="text-white" />
@@ -87,14 +128,26 @@ export default function AboutUsPage() {
                 digital solutions run smoothly at all times.
               </p>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* about founder Section */}
-      <section className="py-16 px-4">
-        <div className="mx-auto space-y-10">
-          <div className="flex flex-col items-center text-center">
+      <section className="py-16">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mx-auto space-y-10"
+        >
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="flex flex-col items-center text-center"
+          >
             <div className="flex gap-2 items-center mb-1">
               <div className="w-1 h-1 rounded-full bg-blue-500" />
               <p className="text-sm">Founder</p>
@@ -112,11 +165,22 @@ export default function AboutUsPage() {
               <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
               <div className="w-8 h-px bg-gradient-to-l from-transparent to-blue-600/50"></div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="flex flex-col md:flex-row w-full">
-            {/* Code Editor Side */}
-            <div className="flex-1 p-6 overflow-auto font-mono text-sm relative">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex flex-col md:flex-row w-full"
+          >
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex-1 p-2 overflow-auto font-mono text-sm relative"
+            >
               <div className="flex items-center gap-2 mb-4 text-gray-400">
                 <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
                 <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
@@ -168,15 +232,20 @@ export default function AboutUsPage() {
                   <div className="absolute top-[148px] left-[278px] w-1 h-5 bg-white animate-pulse"></div>
                 </>
               )}
-            </div>
+            </motion.div>
 
-            {/* Content Side */}
-            <div className=" p-8 flex-1 flex flex-col justify-center space-y-12">
-              <div className="space-y-3">
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="p-2 flex-1 flex flex-col justify-center space-y-12"
+            >
+              <div className="space-y-1">
                 <div className="text-primary text-sm font-medium tracking-wider">
-                  OUR STORY
+                  Our story
                 </div>
-                <h2 className="text-2xl font-bold">
+                <h2 className="text-lg md:text-2xl font-bold">
                   Built by a Passionate Technologist
                 </h2>
                 <p className="text-gray-400 text-sm leading-relaxed">
@@ -187,28 +256,39 @@ export default function AboutUsPage() {
                 </p>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-1">
                 <div className="text-primary text-sm font-medium tracking-wider">
-                  WHAT DRIVES US
+                  What drives us
                 </div>
-                <h2 className="text-2xl font-bold">Our Mission</h2>
+                <h2 className="text-lg md:text-2xl font-bold">Our Mission</h2>
                 <p className="text-gray-400 text-sm leading-relaxed">
                   At Spence Creations, we’re focused on crafting top-tier
-                  digital solutions—from websites to custom software—that
+                  digital solutions from websites to custom software that
                   empower brands and communities. Our goal is to elevate digital
                   presence across Africa and beyond.
                 </p>
               </div>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Team Section */}
-      <section className="py-16 px-4">
-        <div className="mx-auto max-w-4xl space-y-10">
-          {/* Header */}
-          <div className="flex flex-col items-center text-center">
+      <section className="py-16">
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="mx-auto max-w-4xl space-y-10"
+        >
+          <motion.div
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            className="flex flex-col items-center text-center"
+          >
             <div className="flex gap-2 items-center mb-1">
               <div className="w-1 h-1 rounded-full bg-blue-500" />
               <p className="text-sm uppercase text-gray-600">Our Team</p>
@@ -227,10 +307,20 @@ export default function AboutUsPage() {
               <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
               <div className="w-8 h-px bg-gradient-to-l from-transparent to-blue-600/50"></div>
             </div>
-          </div>
+          </motion.div>
 
-          {/* Image Card */}
-          <div className="flex justify-center">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{
+              duration: 0.8,
+              delay: 0.3,
+              type: "spring",
+              stiffness: 100,
+            }}
+            className="flex justify-center"
+          >
             <div className="relative group w-72 h-72 rounded-full overflow-hidden shadow-xl hover:scale-105 transition-transform duration-300 ease-in-out">
               <ShineBorder
                 shineColor={["#2B7FFF", "#00CFFF", "#6D83F2", "#A0E9FF"]}
@@ -245,8 +335,8 @@ export default function AboutUsPage() {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
     </main>
   );

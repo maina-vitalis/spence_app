@@ -76,11 +76,10 @@ export function CodeBlockWindow() {
           </h1>
         </span>
 
-        <p className="font-light text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-          Spence Creations crafts full-stack digital experiences using
-          TypeScript, React, Next.js, Express, and PostgreSQL delivering
-          seamless, scalable solutions from pixel-perfect websites to powerful
-          backend-driven web apps.
+        <p className="font-light text-sm leading-relaxed text-gray-700 dark:text-gray-300 min-h-[60px]">
+          Crafting full-stack digital experiences with modern technologies. We
+          deliver seamless, scalable solutions from pixel-perfect websites to
+          powerful web applications.
         </p>
       </div>
     </div>

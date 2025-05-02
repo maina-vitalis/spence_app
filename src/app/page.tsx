@@ -1,6 +1,7 @@
-import Hero from "@/components/hero/Hero";
-import Pricing from "@/components/price/pricing";
-import OurServices from "@/components/services/OurServices";
+import Hero from "@/components/home/hero/Hero";
+import Pricing from "@/components/home/price/pricing";
+import { Reviews } from "@/components/home/Reviews/Reviews";
+import OurServices from "@/components/home/services/OurServices";
 import { Separator } from "@/components/ui/separator";
 import React from "react";
 
@@ -12,6 +13,7 @@ function Home() {
         <OurServices />
         <Separator className="bg-gradient-to-r from-transparent via-primary to-transparent" />
         <Pricing />
+        <Reviews />
       </div>
     </div>
   );

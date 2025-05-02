@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import NavBar from "@/components/NavBar";
+import NavBar from "@/components/navbar/NavBar";
 import QueryProvider from "@/util/ReactQueryProvider";
 import { Toaster } from "sonner";
 import Footer from "@/components/Footer";
@@ -85,10 +85,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <ThemeProvider attribute="class" defaultTheme="System" enableSystem>
+      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
         <QueryProvider>
           <body className={`${inter.className} antialiased`}>
-            <main className="max-w-[1300px] mx-auto px-3 scroll-smooth">
+            <main className="max-w-[1200px] mx-auto px-3 scroll-smooth">
               <NavBar />
               {children}
               <Footer />
