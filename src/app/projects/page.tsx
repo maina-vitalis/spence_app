@@ -1,11 +1,12 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import { CardDemo } from "@/components/ProjectCard";
+import { ProjectCard } from "@/components/ProjectCard";
+import { projects } from "@/config/projects";
 
 function page() {
   return (
-    <div>
+    <div className="space-y-10">
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -36,7 +37,12 @@ function page() {
           </div>
         </motion.div>
       </motion.section>
-      <CardDemo />
+
+      <div className="grid gap-10 [grid-template-columns:repeat(auto-fit,minmax(350px,1fr))]">
+        {projects.map((project) => (
+          <ProjectCard key={project.title} {...project} />
+        ))}
+      </div>
     </div>
   );
 }
