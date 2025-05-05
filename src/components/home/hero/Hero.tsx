@@ -25,13 +25,13 @@ function Hero() {
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
           className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left gap-6"
         >
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.4, delay: 0.2 }}
             className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight"
           >
             <span className="text-primary">Build</span> modern digital products.
@@ -39,7 +39,7 @@ function Hero() {
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
+            transition={{ duration: 0.4, delay: 0.3 }}
             className="text-muted-foreground text-lg max-w-xl"
           >
             Leveraging cutting-edge tech to deliver reliable, scalable, and
@@ -48,7 +48,7 @@ function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
+            transition={{ duration: 0.4, delay: 0.4 }}
           >
             <Link href="/contact">
               <ShimmerButton className="shadow-2xl">
@@ -63,7 +63,7 @@ function Hero() {
         <motion.div
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
           className="flex-1 flex items-center justify-center"
         >
           <IconCloud />

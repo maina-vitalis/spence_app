@@ -60,8 +60,10 @@ const ReviewCard = ({
 }) => {
   return (
     <motion.figure
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.4, delay: 0.1 }}
       whileHover={{ scale: 1.02 }}
-      transition={{ duration: 0.2 }}
       className={cn(
         "relative h-full w-64 cursor-pointer overflow-hidden rounded-xl border p-4",
         // light styles
@@ -97,15 +99,15 @@ export function Reviews() {
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.8 }}
+      transition={{ duration: 0.4, delay: 0.1 }}
       className="relative flex w-full flex-col items-center justify-center overflow-hidden"
     >
-      <Marquee pauseOnHover className="[--duration:20s]">
+      <Marquee pauseOnHover className="[--duration:10s]">
         {firstRow.map((review) => (
           <ReviewCard key={review.username} {...review} />
         ))}
       </Marquee>
-      <Marquee reverse pauseOnHover className="[--duration:20s]">
+      <Marquee reverse pauseOnHover className="[--duration:10s]">
         {secondRow.map((review) => (
           <ReviewCard key={review.username} {...review} />
         ))}
