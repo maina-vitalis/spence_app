@@ -1,16 +1,17 @@
 "use client";
-import React from "react";
-import PricingCard from "./pricingCard";
 import { motion } from "framer-motion";
-import { FaReact } from "react-icons/fa";
-import { SiNextdotjs } from "react-icons/si";
-import { RiTailwindCssFill } from "react-icons/ri";
 import { BiLogoPostgresql } from "react-icons/bi";
-import { SiSanity } from "react-icons/si";
+import { FaReact } from "react-icons/fa";
 import { FaWordpress } from "react-icons/fa6";
-import { SiPrisma } from "react-icons/si";
-import { SiExpress } from "react-icons/si";
-import { SiNestjs } from "react-icons/si";
+import { RiTailwindCssFill } from "react-icons/ri";
+import {
+  SiExpress,
+  SiNestjs,
+  SiNextdotjs,
+  SiPrisma,
+  SiSanity,
+} from "react-icons/si";
+import PricingCard from "./pricingCard";
 
 function Pricing() {
   const pricingTiers = [
@@ -23,7 +24,7 @@ function Pricing() {
         "Basic SEO Setup",
         "Contact Form",
         "Social Media Integration",
-        "Starting from Ksh. 15,000",
+        "Fast delivery, 2-3 working days",
         "Starting from Ksh. 15,000",
         "*Price varies with functionality",
       ],
