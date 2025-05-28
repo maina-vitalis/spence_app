@@ -3,7 +3,6 @@ import Pricing from "@/components/home/price/pricing";
 import { Reviews } from "@/components/home/Reviews/Reviews";
 import OurServices from "@/components/home/services/OurServices";
 import { Separator } from "@/components/ui/separator";
-import React from "react";
 
 function Home() {
   return (

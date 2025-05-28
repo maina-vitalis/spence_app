@@ -1,24 +1,11 @@
-"use client";
-import React from "react";
-import { motion } from "framer-motion";
 import { ProjectCard } from "@/components/ProjectCard";
 import { projects } from "@/config/projects";
 
 function page() {
   return (
     <div className="space-y-10">
-      <motion.section
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        className="mx-auto mt-6 space-y-10"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex flex-col items-center text-center"
-        >
+      <section className="mx-auto mt-6 space-y-10">
+        <div className="flex flex-col items-center text-center">
           <div className="flex gap-2 items-center mb-1">
             <div className="w-1 h-1 rounded-full bg-blue-500" />
             <p className="text-sm">Get in Touch</p>
@@ -35,8 +22,8 @@ function page() {
             <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
             <div className="w-8 h-px bg-gradient-to-l from-transparent to-blue-600/50"></div>
           </div>
-        </motion.div>
-      </motion.section>
+        </div>
+      </section>
 
       <div className="grid gap-10 [grid-template-columns:repeat(auto-fit,minmax(350px,1fr))]">
         {projects.map((project) => (
