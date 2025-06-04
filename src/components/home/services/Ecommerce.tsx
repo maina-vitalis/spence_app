@@ -10,6 +10,23 @@ export function Ecommerce() {
 
   return (
     <div className="w-full relative rounded-2xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "Ecommerce Solutions",
+            "description": "Building robust ecommerce platforms with seamless shopping experiences. Features include secure payments, efficient product management, and scalable solutions.",
+            "provider": {
+              "@type": "Organization",
+              "name": "Spence Creations",
+              "url": "https://spencecreations.co.ke"
+            },
+            "url": "https://spencecreations.co.ke/", // URL where this service is offered
+          }),
+        }}
+      />
       <ShineBorder
         shineColor={
           theme === "dark" ? ["#14532d", "#11291a"] : ["#22c55e", "#15803d"]

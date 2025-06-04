@@ -1,6 +1,11 @@
 import { ProjectCard } from "@/components/ProjectCard";
 import { projects } from "@/config/projects";
 
+export const metadata = {
+  title: "Our Projects | Spence Creations",
+  description: "Explore a portfolio of our recent web development, e-commerce, and design projects. See the quality of work Spence Creations delivers.",
+};
+
 function page() {
   return (
     <div className="space-y-10">

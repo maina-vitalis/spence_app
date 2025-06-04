@@ -10,6 +10,23 @@ export function CodeBlockWindow() {
 
   return (
     <div className="w-full space-y-1 border border-gray-200 dark:border-gray-800 rounded-3xl relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "Website and Mobile Development",
+            "description": "Crafting full-stack digital experiences with modern technologies. We deliver seamless, scalable solutions from pixel-perfect websites to powerful web applications.",
+            "provider": {
+              "@type": "Organization",
+              "name": "Spence Creations",
+              "url": "https://spencecreations.co.ke"
+            },
+            "url": "https://spencecreations.co.ke/", // URL where this service is offered
+          }),
+        }}
+      />
       <ShineBorder
         shineColor={theme === "dark" ? ["#2563eb"] : ["#3b82f6"]}
         className="z-10"

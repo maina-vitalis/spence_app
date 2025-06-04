@@ -22,6 +22,48 @@ const staggerContainer = {
 export default function ContactPage() {
   return (
     <main className="space-y-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ContactPage",
+            "url": "https://spencecreations.co.ke/contact", // Replace with your actual contact page URL
+            "potentialAction": [
+              {
+                "@type": "CommunicateAction",
+                "target": {
+                  "@type": "EntryPoint",
+                  "urlTemplate": "mailto:info@spencecreations.co.ke"
+                },
+                "agent": {
+                  "@type": "Organization",
+                  "name": "Spence Creations"
+                },
+                "recipient": {
+                  "@type": "Organization",
+                  "name": "Spence Creations"
+                }
+              },
+              {
+                "@type": "CommunicateAction",
+                "target": {
+                  "@type": "EntryPoint",
+                  "urlTemplate": "tel:+254799732696"
+                },
+                "agent": {
+                  "@type": "Organization",
+                  "name": "Spence Creations"
+                },
+                "recipient": {
+                  "@type": "Organization",
+                  "name": "Spence Creations"
+                }
+              }
+            ]
+          })
+        }}
+      />
       {/* Top Section */}
       <motion.section
         initial={{ opacity: 0 }}

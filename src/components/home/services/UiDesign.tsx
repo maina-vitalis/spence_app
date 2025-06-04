@@ -9,6 +9,23 @@ export function UiDesign() {
 
   return (
     <div className="w-full rounded-2xl relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            "name": "UI/UX & Graphic Design",
+            "description": "Creating visually stunning and intuitive user interfaces that enhance user engagement. Our designs focus on usability, accessibility, and seamless interaction.",
+            "provider": {
+              "@type": "Organization",
+              "name": "Spence Creations",
+              "url": "https://spencecreations.co.ke"
+            },
+            "url": "https://spencecreations.co.ke/", // URL where this service is offered
+          }),
+        }}
+      />
       <ShineBorder
         shineColor={
           theme === "dark" ? ["#7c2d12", "#ea580c"] : ["#f97316", "#c2410c"]
