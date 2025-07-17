@@ -1,16 +1,26 @@
 import ContactFormEmail from "@/components/Email/ContactEmail";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 export async function POST(request: Request) {
   try {
+    // Check if Resend API key is configured
+    if (!process.env.RESEND_API_KEY) {
+      return new Response(
+        JSON.stringify({ error: "Email service not configured" }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    const resend = new Resend(process.env.RESEND_API_KEY);
+
     // Parse the request body for dynamic data
     const body = await request.json();
 
     const { name, email, message } = body;
 
-    //
     const data = await resend.emails.send({
       from: "Ezzfreedomandhope<no-reply@ezzfreedomandhope.or.ke>",
       to: ["mainavitalis65@gmail.com"],

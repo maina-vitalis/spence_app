@@ -1,10 +1,4 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import Mobile from "./MobileNav";
-import { ThemeToggle } from "./ThemeToggle";
-import Link from "next/link";
-import Image from "next/image";
-import logo from "./../../../public/logo2.png";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -14,6 +8,12 @@ import {
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
 import { Phone } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import logo from "./../../../public/logo2.png";
+import Mobile from "./MobileNav";
+import { ThemeToggle } from "./ThemeToggle";
 
 function NavBar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -87,6 +87,19 @@ function NavBar() {
                   )}
                 >
                   Projects
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <Link href="/blog" passHref>
+                <NavigationMenuLink
+                  className={cn(
+                    navigationMenuTriggerStyle(),
+                    "rounded-full text-xs"
+                  )}
+                >
+                  Blog
                 </NavigationMenuLink>
               </Link>
             </NavigationMenuItem>

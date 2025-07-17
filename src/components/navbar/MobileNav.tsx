@@ -1,4 +1,7 @@
-import React from "react";
+import { motion } from "framer-motion";
+import { LinkIcon, Menu } from "lucide-react";
+import Link from "next/link";
+import { Separator } from "../ui/separator";
 import {
   Sheet,
   SheetClose,
@@ -6,10 +9,6 @@ import {
   SheetHeader,
   SheetTrigger,
 } from "../ui/sheet";
-import { LinkIcon, Menu } from "lucide-react";
-import Link from "next/link";
-import { Separator } from "../ui/separator";
-import { motion } from "framer-motion";
 import { ThemeToggle } from "./ThemeToggle";
 
 const container = {
@@ -100,6 +99,23 @@ function Mobile() {
                 <span>
                   <p className="text-sm font-semibold">Projects</p>
                   <p className="text-xs">View our latest work</p>
+                </span>
+                <LinkIcon size={15} />
+              </Link>
+            </SheetClose>
+          </motion.div>
+
+          <Separator className="bg-gradient-to-r from-transparent via-primary to-transparent" />
+
+          <motion.div variants={item}>
+            <SheetClose asChild>
+              <Link
+                href="/blog"
+                className="w-full p-2 px-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
+              >
+                <span>
+                  <p className="text-sm font-semibold">Blog</p>
+                  <p className="text-xs">Read our latest articles</p>
                 </span>
                 <LinkIcon size={15} />
               </Link>
