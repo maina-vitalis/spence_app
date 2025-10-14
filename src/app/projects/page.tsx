@@ -3,7 +3,8 @@ import { getProjects } from "@/lib/actions/projects";
 
 export const metadata = {
   title: "Our Projects | Spence Creations",
-  description: "Explore a portfolio of our recent web development, e-commerce, and design projects. See the quality of work Spence Creations delivers.",
+  description:
+    "Explore a portfolio of our recent web development, e-commerce, and design projects. See the quality of work Spence Creations delivers.",
 };
 
 async function page() {
@@ -56,9 +57,7 @@ async function page() {
 
       {projects.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-600 text-lg">
-            No projects available yet.
-          </p>
+          <p className="text-gray-600 text-lg">No projects available yet</p>
         </div>
       ) : (
         <div className="grid gap-10 [grid-template-columns:repeat(auto-fit,minmax(350px,1fr))]">
