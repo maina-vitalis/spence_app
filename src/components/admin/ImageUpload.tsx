@@ -131,7 +131,7 @@ export function ImageUpload({
         setIsUploading(false);
       }
     },
-    [maxSize, minWidth, minHeight, onUpload, validateImageDimensions]
+    [maxSize, onUpload, validateImageDimensions]
   );
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
