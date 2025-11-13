@@ -22,6 +22,7 @@ export default function AdminLoginPage() {
     getSession().then((session) => {
       if (session?.user?.role === "admin") {
         router.push("/admin");
+        router.refresh();
       }
     });
   }, [router]);
@@ -31,17 +32,15 @@ export default function AdminLoginPage() {
     try {
       const result = await signIn(provider, {
         callbackUrl: "/admin",
-        redirect: false,
+        redirect: true,
       });
 
       if (result?.error) {
         console.error("Sign in error:", result.error);
-      } else if (result?.url) {
-        router.push(result.url);
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Sign in error:", error);
-    } finally {
       setIsLoading(false);
     }
   };

@@ -24,19 +24,18 @@ export const authOptions: NextAuthOptions = {
 
       return false; // Deny access if not admin
     },
-    async session({ session }) {
-      // Add admin role to session
-      if (session.user?.email) {
-        const adminEmails = process.env.ADMIN_EMAILS?.split(",") || [];
-        session.user.role = adminEmails.includes(session.user.email)
-          ? "admin"
-          : "user";
+    async session({ session, token }) {
+      // Add admin role to session from token
+      if (session.user) {
+        session.user.role = token.role as string;
       }
       return session;
     },
     async jwt({ token, user }) {
+      // Set role when user first signs in
       if (user) {
-        token.role = "admin";
+        const adminEmails = process.env.ADMIN_EMAILS?.split(",") || [];
+        token.role = user.email && adminEmails.includes(user.email) ? "admin" : "user";
       }
       return token;
     },
@@ -47,6 +46,12 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   secret: process.env.NEXTAUTH_SECRET,
+  events: {
+    async signOut() {
+      // Clear any server-side session data if needed
+    },
+  },
 };

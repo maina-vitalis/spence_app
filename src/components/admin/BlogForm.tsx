@@ -1,6 +1,7 @@
 "use client";
 
 import { ImageUpload } from "@/components/admin/ImageUpload";
+import { TiptapEditor } from "@/components/admin/TiptapEditor";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -39,13 +40,15 @@ export function BlogForm({ post, mode }: BlogFormProps) {
   const [status, setStatus] = useState<"DRAFT" | "PUBLISHED">(
     post?.status || "DRAFT"
   );
+  const [content, setContent] = useState(post?.content || "");
 
   const handleSubmit = async (formData: FormData) => {
     setIsSubmitting(true);
     setErrors({});
 
-    // Add status to form data
+    // Add status and content to form data
     formData.set("status", status);
+    formData.set("content", content);
 
     try {
       let result;
@@ -186,19 +189,15 @@ export function BlogForm({ post, mode }: BlogFormProps) {
                 <Label htmlFor="content">
                   Content <span className="text-destructive">*</span>
                 </Label>
-                <Textarea
-                  id="content"
-                  name="content"
-                  placeholder="Write your blog post content here..."
-                  rows={20}
-                  defaultValue={post?.content || ""}
-                  className={errors.content ? "border-destructive" : ""}
+                <TiptapEditor
+                  content={content}
+                  onChange={setContent}
                 />
                 {errors.content && (
-                  <p className="text-sm text-destructive">{errors.content[0]}</p>
+                  <p className="text-sm text-destructive mt-2">{errors.content[0]}</p>
                 )}
-                <p className="text-sm text-muted-foreground">
-                  You can use HTML formatting in your content
+                <p className="text-sm text-muted-foreground mt-2">
+                  Rich text editor with formatting options
                 </p>
               </div>
             </CardContent>

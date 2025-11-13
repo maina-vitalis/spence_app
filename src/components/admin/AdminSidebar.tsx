@@ -49,8 +49,11 @@ function SidebarContent() {
   const pathname = usePathname();
   const { data: session } = useSession();
 
-  const handleSignOut = () => {
-    signOut({ callbackUrl: "/" });
+  const handleSignOut = async () => {
+    await signOut({ 
+      callbackUrl: "/",
+      redirect: true 
+    });
   };
 
   return (
