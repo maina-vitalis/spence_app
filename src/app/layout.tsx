@@ -91,58 +91,57 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "Spence Creations",
-            "url": "https://spencecreations.co.ke",
-            "logo": "https://spencecreations.co.ke/logo.png", // Replace with your actual logo URL
-            "contactPoint": {
-              "@type": "ContactPoint",
-              "telephone": "+254799732696", // Replace with your actual phone number
-              "contactType": "Customer Service",
-              "email": "info@spencecreations.co.ke", // Replace with your actual email
-            },
-            "sameAs": [
-              // "https://twitter.com/yourprofile",
-              // "https://linkedin.com/company/yourcompany",
-            ],
-          }),
-        }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "url": "https://spencecreations.co.ke",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": {
-                "@type": "EntryPoint",
-                "urlTemplate": "https://spencecreations.co.ke/search?q={search_term_string}"
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Spence Creations",
+              "url": "https://spencecreations.co.ke",
+              "logo": "https://spencecreations.co.ke/logo.png",
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+254799732696",
+                "contactType": "Customer Service",
+                "email": "info@spencecreations.co.ke",
               },
-              "query": "required name=search_term_string"
-            }
-          }),
-        }}
-      />
-      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-        <QueryProvider>
-          <body className={`${inter.className} antialiased`}>
+              "sameAs": [],
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "url": "https://spencecreations.co.ke",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": {
+                  "@type": "EntryPoint",
+                  "urlTemplate": "https://spencecreations.co.ke/search?q={search_term_string}"
+                },
+                "query": "required name=search_term_string"
+              }
+            }),
+          }}
+        />
+      </head>
+      <body className={`${inter.className} antialiased`}>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <QueryProvider>
             <main className="max-w-[1200px] mx-auto px-3 scroll-smooth">
               <NavBar />
               {children}
               <Footer />
             </main>
-          </body>
-          <Toaster richColors position="top-right" visibleToasts={1} />
-        </QueryProvider>
-      </ThemeProvider>
+            <Toaster richColors position="top-right" visibleToasts={1} />
+          </QueryProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

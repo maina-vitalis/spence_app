@@ -28,13 +28,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-background py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back to blog link */}
         <div className="mb-8">
           <Link
             href="/blog"
-            className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+            className="inline-flex items-center text-primary hover:text-primary/80 font-medium"
           >
             <svg
               className="mr-2 w-4 h-4"
@@ -51,7 +51,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           </Link>
         </div>
 
-        <article className="bg-white rounded-lg shadow-lg overflow-hidden">
+        <article className="bg-card rounded-lg shadow-lg overflow-hidden border border-border">
           {/* Featured Image */}
           {post.featuredImage && (
             <div className="relative h-64 md:h-96 w-full">
@@ -71,7 +71,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               {post.categories.map((category) => (
                 <span
                   key={category}
-                  className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full"
+                  className="px-3 py-1 bg-primary/10 text-primary text-sm font-medium rounded-full"
                 >
                   {category}
                 </span>
@@ -79,12 +79,12 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
 
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               {post.title}
             </h1>
 
             {/* Meta information */}
-            <div className="flex items-center justify-between text-gray-600 mb-8 pb-8 border-b">
+            <div className="flex items-center justify-between text-muted-foreground mb-8 pb-8 border-b border-border">
               <div className="flex items-center space-x-4">
                 <span className="font-medium">By {post.author}</span>
                 <span>•</span>
@@ -98,24 +98,24 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </div>
 
             {/* Content */}
-            <div className="prose prose-lg max-w-none">
+            <div className="prose prose-lg dark:prose-invert max-w-none">
               <div
                 dangerouslySetInnerHTML={{ __html: post.content }}
-                className="text-gray-800 leading-relaxed"
+                className="text-foreground leading-relaxed"
               />
             </div>
 
             {/* Tags */}
             {post.tags.length > 0 && (
-              <div className="mt-8 pt-8 border-t">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3">
+              <div className="mt-8 pt-8 border-t border-border">
+                <h3 className="text-lg font-semibold text-foreground mb-3">
                   Tags
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {post.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full"
+                      className="px-3 py-1 bg-secondary text-secondary-foreground text-sm rounded-full"
                     >
                       #{tag}
                     </span>
@@ -128,13 +128,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Navigation to other posts */}
         <div className="mt-12">
-          <h3 className="text-xl font-bold text-gray-900 mb-6">
+          <h3 className="text-xl font-bold text-foreground mb-6">
             More Articles
           </h3>
           <div className="text-center">
             <Link
               href="/blog"
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors"
             >
               View All Posts
             </Link>

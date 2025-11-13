@@ -8,11 +8,11 @@ export default async function BlogPage() {
 
   if (!result.success || !result.data) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12">
+      <div className="min-h-screen bg-background py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-8">Blog</h1>
-            <p className="text-red-600">Failed to load blog posts</p>
+            <h1 className="text-3xl font-bold text-foreground mb-8">Blog</h1>
+            <p className="text-destructive">Failed to load blog posts</p>
           </div>
         </div>
       </div>
@@ -25,11 +25,11 @@ export default async function BlogPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-background py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Blog</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <h1 className="text-4xl font-bold text-foreground mb-4">Blog</h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Discover insights, tutorials, and stories from our development
             journey
           </p>
@@ -37,7 +37,7 @@ export default async function BlogPage() {
 
         {publishedPosts.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-600 text-lg">
+            <p className="text-muted-foreground text-lg">
               No blog posts published yet.
             </p>
           </div>
@@ -46,7 +46,7 @@ export default async function BlogPage() {
             {publishedPosts.map((post) => (
               <article
                 key={post.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                className="bg-card rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-border"
               >
                 {post.featuredImage && (
                   <div className="relative h-48 w-full">
@@ -64,27 +64,27 @@ export default async function BlogPage() {
                     {post.categories.map((category) => (
                       <span
                         key={category}
-                        className="px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full"
+                        className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full"
                       >
                         {category}
                       </span>
                     ))}
                   </div>
 
-                  <h2 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2">
+                  <h2 className="text-xl font-bold text-foreground mb-3 line-clamp-2">
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="hover:text-blue-600 transition-colors"
+                      className="hover:text-primary transition-colors"
                     >
                       {post.title}
                     </Link>
                   </h2>
 
-                  <p className="text-gray-600 mb-4 line-clamp-3">
+                  <p className="text-muted-foreground mb-4 line-clamp-3">
                     {post.excerpt}
                   </p>
 
-                  <div className="flex items-center justify-between text-sm text-gray-500">
+                  <div className="flex items-center justify-between text-sm text-muted-foreground">
                     <span>By {post.author}</span>
                     <span>
                       {post.publishedAt &&
@@ -97,7 +97,7 @@ export default async function BlogPage() {
                   <div className="mt-4">
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+                      className="inline-flex items-center text-primary hover:text-primary/80 font-medium"
                     >
                       Read more
                       <svg

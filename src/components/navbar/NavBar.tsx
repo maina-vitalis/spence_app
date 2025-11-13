@@ -40,68 +40,63 @@ function NavBar() {
         <NavigationMenu className="p-0">
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link href="/#services" passHref>
-                <NavigationMenuLink
-                  className={cn(
-                    navigationMenuTriggerStyle(),
-                    "rounded-full text-xs"
-                  )}
-                >
-                  Services
-                </NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink
+                href="/#services"
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  "rounded-full text-xs"
+                )}
+              >
+                Services
+              </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <Link href="/contact" passHref>
-                <NavigationMenuLink
-                  className={cn(
-                    navigationMenuTriggerStyle(),
-                    "rounded-full text-xs"
-                  )}
-                >
-                  Contact-us
-                </NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink
+                href="/contact"
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  "rounded-full text-xs"
+                )}
+              >
+                Contact-us
+              </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <Link href="/about-us" passHref>
-                <NavigationMenuLink
-                  className={cn(
-                    navigationMenuTriggerStyle(),
-                    "rounded-full text-xs"
-                  )}
-                >
-                  About-us
-                </NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink
+                href="/about-us"
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  "rounded-full text-xs"
+                )}
+              >
+                About-us
+              </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <Link href="/projects" passHref>
-                <NavigationMenuLink
-                  className={cn(
-                    navigationMenuTriggerStyle(),
-                    "rounded-full text-xs"
-                  )}
-                >
-                  Projects
-                </NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink
+                href="/projects"
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  "rounded-full text-xs"
+                )}
+              >
+                Projects
+              </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-              <Link href="/blog" passHref>
-                <NavigationMenuLink
-                  className={cn(
-                    navigationMenuTriggerStyle(),
-                    "rounded-full text-xs"
-                  )}
-                >
-                  Blog
-                </NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink
+                href="/blog"
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  "rounded-full text-xs"
+                )}
+              >
+                Blog
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
