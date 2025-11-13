@@ -28,119 +28,121 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Back to blog link */}
-        <div className="mb-8">
+    <div className="min-h-screen bg-background">
+      {/* Navigation */}
+      <div className="border-b border-border">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <Link
             href="/blog"
-            className="inline-flex items-center text-primary hover:text-primary/80 font-medium"
+            className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
           >
-            <svg
-              className="mr-2 w-4 h-4"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fillRule="evenodd"
-                d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-                clipRule="evenodd"
-              />
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
             Back to Blog
           </Link>
         </div>
+      </div>
 
-        <article className="bg-card rounded-lg shadow-lg overflow-hidden border border-border">
-          {/* Featured Image */}
-          {post.featuredImage && (
-            <div className="relative h-64 md:h-96 w-full">
-              <Image
-                src={post.featuredImage}
-                alt={post.title}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-          )}
-
-          <div className="p-8">
-            {/* Categories */}
+      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Header */}
+        <header className="mb-8">
+          {/* Categories */}
+          {post.categories.length > 0 && (
             <div className="flex flex-wrap gap-2 mb-4">
               {post.categories.map((category) => (
                 <span
                   key={category}
-                  className="px-3 py-1 bg-primary/10 text-primary text-sm font-medium rounded-full"
+                  className="inline-flex items-center px-3 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full"
                 >
                   {category}
                 </span>
               ))}
             </div>
+          )}
 
-            {/* Title */}
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              {post.title}
-            </h1>
+          {/* Title */}
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
+            {post.title}
+          </h1>
 
-            {/* Meta information */}
-            <div className="flex items-center justify-between text-muted-foreground mb-8 pb-8 border-b border-border">
-              <div className="flex items-center space-x-4">
-                <span className="font-medium">By {post.author}</span>
-                <span>•</span>
-                <span>
-                  {post.publishedAt &&
-                    formatDistanceToNow(new Date(post.publishedAt), {
-                      addSuffix: true,
-                    })}
-                </span>
+          {/* Meta */}
+          <div className="flex items-center gap-4 text-sm text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-xs font-semibold text-foreground">
+                {post.author.charAt(0).toUpperCase()}
               </div>
+              <span className="font-medium text-foreground">{post.author}</span>
             </div>
-
-            {/* Content */}
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              <div
-                dangerouslySetInnerHTML={{ __html: post.content }}
-                className="text-foreground leading-relaxed"
-              />
-            </div>
-
-            {/* Tags */}
-            {post.tags.length > 0 && (
-              <div className="mt-8 pt-8 border-t border-border">
-                <h3 className="text-lg font-semibold text-foreground mb-3">
-                  Tags
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {post.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="px-3 py-1 bg-secondary text-secondary-foreground text-sm rounded-full"
-                    >
-                      #{tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            )}
+            <span>•</span>
+            <time>
+              {post.publishedAt &&
+                formatDistanceToNow(new Date(post.publishedAt), {
+                  addSuffix: true,
+                })}
+            </time>
           </div>
-        </article>
+        </header>
 
-        {/* Navigation to other posts */}
-        <div className="mt-12">
-          <h3 className="text-xl font-bold text-foreground mb-6">
-            More Articles
-          </h3>
+        {/* Featured Image */}
+        {post.featuredImage && (
+          <div className="relative w-full h-[400px] md:h-[500px] mb-12 rounded-lg overflow-hidden bg-muted">
+            <Image
+              src={post.featuredImage}
+              alt={post.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+        )}
+
+        {/* Content */}
+        <div className="prose prose-gray dark:prose-invert prose-lg max-w-none
+          prose-headings:font-bold prose-headings:tracking-tight
+          prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl
+          prose-p:text-foreground/90 prose-p:leading-relaxed
+          prose-a:text-primary prose-a:font-medium prose-a:no-underline hover:prose-a:underline
+          prose-strong:text-foreground prose-strong:font-semibold
+          prose-code:text-sm prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
+          prose-pre:bg-muted prose-pre:border prose-pre:border-border
+          prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:py-1
+          prose-img:rounded-lg prose-img:border prose-img:border-border
+          prose-hr:border-border
+          prose-ul:list-disc prose-ol:list-decimal">
+          <div dangerouslySetInnerHTML={{ __html: post.content }} />
+        </div>
+
+        {/* Tags */}
+        {post.tags.length > 0 && (
+          <div className="mt-12 pt-8 border-t border-border">
+            <h3 className="text-sm font-semibold text-foreground mb-3">Tags</h3>
+            <div className="flex flex-wrap gap-2">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="inline-flex items-center px-3 py-1 text-sm text-muted-foreground bg-muted rounded-md hover:bg-muted/80 transition-colors"
+                >
+                  #{tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Footer CTA */}
+        <div className="mt-16 pt-8 border-t border-border">
           <div className="text-center">
+            <p className="text-muted-foreground mb-4">Want to read more articles?</p>
             <Link
               href="/blog"
-              className="inline-flex items-center px-6 py-3 bg-primary text-primary-foreground font-medium rounded-lg hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 text-sm font-medium text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors"
             >
               View All Posts
             </Link>
           </div>
         </div>
-      </div>
+      </article>
     </div>
   );
 }

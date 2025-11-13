@@ -109,273 +109,260 @@ export function BlogForm({ post, mode }: BlogFormProps) {
         </div>
       </div>
 
-      <form action={handleSubmit} className="space-y-4">
-        {/* Main Content */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Post Content</CardTitle>
-            {/* Additional Settings Grid */}
-            <div className="">
-              {/* Publish Settings */}
-              <Card>
-                <CardHeader className="text-center">
-                  <CardTitle>Publish</CardTitle>
-                  <CardDescription>
-                    Control when and how your post is published
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label>Status</Label>
-                    <Select
-                      value={status}
-                      onValueChange={(value: "DRAFT" | "PUBLISHED") =>
-                        setStatus(value)
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="DRAFT">Draft</SelectItem>
-                        <SelectItem value="PUBLISHED">Published</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
+      <form action={handleSubmit} className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {/* Main Content - Left Column (2/3 width) */}
+        <div className="lg:col-span-2 space-y-4">
+          {/* Basic Information */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Basic Information</CardTitle>
+              <CardDescription>Essential details for your blog post</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {/* Title */}
+              <div className="space-y-2">
+                <Label htmlFor="title">
+                  Title <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="title"
+                  name="title"
+                  placeholder="Enter an engaging title"
+                  defaultValue={post?.title || ""}
+                  className={errors.title ? "border-destructive" : ""}
+                />
+                {errors.title && (
+                  <p className="text-sm text-destructive">{errors.title[0]}</p>
+                )}
+              </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="author">
-                      Author <span className="text-destructive">*</span>
-                    </Label>
-                    <Input
-                      id="author"
-                      name="author"
-                      placeholder="Author name"
-                      defaultValue={post?.author || "Vitalis Maina"}
-                      className={errors.author ? "border-destructive" : ""}
-                    />
-                    {errors.author && (
-                      <p className="text-sm text-destructive">
-                        {errors.author[0]}
-                      </p>
-                    )}
-                  </div>
+              {/* Author */}
+              <div className="space-y-2">
+                <Label htmlFor="author">
+                  Author <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="author"
+                  name="author"
+                  placeholder="Author name"
+                  defaultValue={post?.author || "Vitalis Maina"}
+                  className={errors.author ? "border-destructive" : ""}
+                />
+                {errors.author && (
+                  <p className="text-sm text-destructive">
+                    {errors.author[0]}
+                  </p>
+                )}
+              </div>
 
-                  <div className="flex gap-2 pt-4">
-                    <Button
-                      type="submit"
-                      disabled={isSubmitting}
-                      onClick={
-                        status === "DRAFT" ? handleSaveAsDraft : handlePublish
-                      }
-                      className="flex-1"
-                    >
-                      {isSubmitting && (
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      )}
-                      {status === "DRAFT" ? (
-                        <>
-                          <Save className="mr-2 h-4 w-4" />
-                          Save Draft
-                        </>
-                      ) : (
-                        <>
-                          <Eye className="mr-2 h-4 w-4" />
-                          Publish
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              {/* Excerpt */}
+              <div className="space-y-2">
+                <Label htmlFor="excerpt">
+                  Excerpt <span className="text-destructive">*</span>
+                </Label>
+                <Textarea
+                  id="excerpt"
+                  name="excerpt"
+                  placeholder="Brief summary of your post (shown in listings)"
+                  rows={3}
+                  defaultValue={post?.excerpt || ""}
+                  className={errors.excerpt ? "border-destructive" : ""}
+                />
+                {errors.excerpt && (
+                  <p className="text-sm text-destructive">{errors.excerpt[0]}</p>
+                )}
+              </div>
+            </CardContent>
+          </Card>
 
-              {/* Featured Image */}
-              <Card>
-                <CardHeader className="text-center">
-                  <CardTitle>Featured Image</CardTitle>
-                  <CardDescription>
-                    Add a featured image for your post
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex flex-col items-center">
-                  <ImageUpload
-                    label="Featured Image"
-                    name="featuredImage"
-                    defaultValue={post?.featuredImage || ""}
-                    aspectRatio="video"
-                    maxSize={5}
-                    minWidth={400}
-                    minHeight={200}
-                  />
-                  {errors.featuredImage && (
-                    <p className="text-sm text-destructive mt-2">
-                      {errors.featuredImage[0]}
-                    </p>
-                  )}
-                </CardContent>
-              </Card>
+          {/* Main Content */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Content</CardTitle>
+              <CardDescription>Write your blog post content</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <Label htmlFor="content">
+                  Content <span className="text-destructive">*</span>
+                </Label>
+                <Textarea
+                  id="content"
+                  name="content"
+                  placeholder="Write your blog post content here..."
+                  rows={20}
+                  defaultValue={post?.content || ""}
+                  className={errors.content ? "border-destructive" : ""}
+                />
+                {errors.content && (
+                  <p className="text-sm text-destructive">{errors.content[0]}</p>
+                )}
+                <p className="text-sm text-muted-foreground">
+                  You can use HTML formatting in your content
+                </p>
+              </div>
+            </CardContent>
+          </Card>
 
-              {/* Categories and Tags */}
-              <Card>
-                <CardHeader className="text-center">
-                  <CardTitle>Categories & Tags</CardTitle>
-                  <CardDescription>Organize your content</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="categories">Categories</Label>
-                    <Input
-                      id="categories"
-                      name="categories"
-                      placeholder="Web Development, Design"
-                      defaultValue={post?.categories.join(", ") || ""}
-                      className={errors.categories ? "border-destructive" : ""}
-                    />
-                    {errors.categories && (
-                      <p className="text-sm text-destructive">
-                        {errors.categories[0]}
-                      </p>
-                    )}
-                    <p className="text-sm text-muted-foreground">
-                      Separate categories with commas
-                    </p>
-                  </div>
+          {/* SEO Settings */}
+          <Card>
+            <CardHeader>
+              <CardTitle>SEO Settings</CardTitle>
+              <CardDescription>
+                Optimize your post for search engines
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="metaDescription">Meta Description</Label>
+                <Textarea
+                  id="metaDescription"
+                  name="metaDescription"
+                  placeholder="Brief description for search engines (155 characters)"
+                  rows={2}
+                  defaultValue={post?.metaDescription || ""}
+                  className={
+                    errors.metaDescription ? "border-destructive" : ""
+                  }
+                />
+                {errors.metaDescription && (
+                  <p className="text-sm text-destructive">
+                    {errors.metaDescription[0]}
+                  </p>
+                )}
+              </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="tags">Tags</Label>
-                    <Input
-                      id="tags"
-                      name="tags"
-                      placeholder="react, nextjs, tutorial"
-                      defaultValue={post?.tags.join(", ") || ""}
-                      className={errors.tags ? "border-destructive" : ""}
-                    />
-                    {errors.tags && (
-                      <p className="text-sm text-destructive">
-                        {errors.tags[0]}
-                      </p>
-                    )}
-                    <p className="text-sm text-muted-foreground">
-                      Separate tags with commas
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+              <div className="space-y-2">
+                <Label htmlFor="metaKeywords">Meta Keywords</Label>
+                <Input
+                  id="metaKeywords"
+                  name="metaKeywords"
+                  placeholder="keyword1, keyword2, keyword3"
+                  defaultValue={post?.metaKeywords.join(", ") || ""}
+                  className={
+                    errors.metaKeywords ? "border-destructive" : ""
+                  }
+                />
+                {errors.metaKeywords && (
+                  <p className="text-sm text-destructive">
+                    {errors.metaKeywords[0]}
+                  </p>
+                )}
+                <p className="text-sm text-muted-foreground">
+                  Separate keywords with commas
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
-              {/* SEO Settings */}
-              <Card>
-                <CardHeader className="text-center">
-                  <CardTitle>SEO Settings</CardTitle>
-                  <CardDescription>
-                    Optimize your post for search engines
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="metaDescription">Meta Description</Label>
-                    <Textarea
-                      id="metaDescription"
-                      name="metaDescription"
-                      placeholder="Brief description for search engines"
-                      rows={3}
-                      defaultValue={post?.metaDescription || ""}
-                      className={
-                        errors.metaDescription ? "border-destructive" : ""
-                      }
-                    />
-                    {errors.metaDescription && (
-                      <p className="text-sm text-destructive">
-                        {errors.metaDescription[0]}
-                      </p>
-                    )}
-                  </div>
+        {/* Sidebar - Right Column (1/3 width) */}
+        <div className="space-y-4">
+          {/* Publish Settings */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Publish</CardTitle>
+              <CardDescription>
+                Control post visibility
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label>Status</Label>
+                <Select
+                  value={status}
+                  onValueChange={(value: "DRAFT" | "PUBLISHED") =>
+                    setStatus(value)
+                  }
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="DRAFT">Draft</SelectItem>
+                    <SelectItem value="PUBLISHED">Published</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </CardContent>
+          </Card>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="metaKeywords">Meta Keywords</Label>
-                    <Input
-                      id="metaKeywords"
-                      name="metaKeywords"
-                      placeholder="keyword1, keyword2, keyword3"
-                      defaultValue={post?.metaKeywords.join(", ") || ""}
-                      className={
-                        errors.metaKeywords ? "border-destructive" : ""
-                      }
-                    />
-                    {errors.metaKeywords && (
-                      <p className="text-sm text-destructive">
-                        {errors.metaKeywords[0]}
-                      </p>
-                    )}
-                    <p className="text-sm text-muted-foreground">
-                      Separate keywords with commas
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-            <CardDescription>Write your blog post content</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {/* Title */}
-            <div className="space-y-2">
-              <Label htmlFor="title">
-                Title <span className="text-destructive">*</span>
-              </Label>
-              <Input
-                id="title"
-                name="title"
-                placeholder="Enter post title"
-                defaultValue={post?.title || ""}
-                className={errors.title ? "border-destructive" : ""}
+          {/* Featured Image */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Featured Image</CardTitle>
+              <CardDescription>
+                Add a cover image
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ImageUpload
+                label="Featured Image"
+                name="featuredImage"
+                defaultValue={post?.featuredImage || ""}
+                aspectRatio="video"
+                maxSize={5}
+                minWidth={400}
+                minHeight={200}
               />
-              {errors.title && (
-                <p className="text-sm text-destructive">{errors.title[0]}</p>
+              {errors.featuredImage && (
+                <p className="text-sm text-destructive mt-2">
+                  {errors.featuredImage[0]}
+                </p>
               )}
-            </div>
+            </CardContent>
+          </Card>
 
-            {/* Excerpt */}
-            <div className="space-y-2">
-              <Label htmlFor="excerpt">
-                Excerpt <span className="text-destructive">*</span>
-              </Label>
-              <Textarea
-                id="excerpt"
-                name="excerpt"
-                placeholder="Brief description of your post"
-                rows={3}
-                defaultValue={post?.excerpt || ""}
-                className={errors.excerpt ? "border-destructive" : ""}
-              />
-              {errors.excerpt && (
-                <p className="text-sm text-destructive">{errors.excerpt[0]}</p>
-              )}
-            </div>
+          {/* Categories and Tags */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Organization</CardTitle>
+              <CardDescription>Categories & Tags</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="categories">Categories</Label>
+                <Input
+                  id="categories"
+                  name="categories"
+                  placeholder="Web Development, Design"
+                  defaultValue={post?.categories.join(", ") || ""}
+                  className={errors.categories ? "border-destructive" : ""}
+                />
+                {errors.categories && (
+                  <p className="text-sm text-destructive">
+                    {errors.categories[0]}
+                  </p>
+                )}
+                <p className="text-xs text-muted-foreground">
+                  Separate with commas
+                </p>
+              </div>
 
-            {/* Content */}
-            <div className="space-y-2">
-              <Label htmlFor="content">
-                Content <span className="text-destructive">*</span>
-              </Label>
-              <Textarea
-                id="content"
-                name="content"
-                placeholder="Write your blog post content here..."
-                rows={15}
-                defaultValue={post?.content || ""}
-                className={errors.content ? "border-destructive" : ""}
-              />
-              {errors.content && (
-                <p className="text-sm text-destructive">{errors.content[0]}</p>
-              )}
-              <p className="text-sm text-muted-foreground">
-                You can use Markdown formatting in your content
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+              <div className="space-y-2">
+                <Label htmlFor="tags">Tags</Label>
+                <Input
+                  id="tags"
+                  name="tags"
+                  placeholder="react, nextjs, tutorial"
+                  defaultValue={post?.tags.join(", ") || ""}
+                  className={errors.tags ? "border-destructive" : ""}
+                />
+                {errors.tags && (
+                  <p className="text-sm text-destructive">
+                    {errors.tags[0]}
+                  </p>
+                )}
+                <p className="text-xs text-muted-foreground">
+                  Separate with commas
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
         {/* Bottom Actions */}
-        <div className="flex items-center justify-between pt-4 border-t">
+        <div className="lg:col-span-3 flex items-center justify-between pt-4 border-t">
           <Button variant="outline" asChild>
             <Link href="/admin/blog">Cancel</Link>
           </Button>
@@ -388,6 +375,9 @@ export function BlogForm({ post, mode }: BlogFormProps) {
                 disabled={isSubmitting}
                 onClick={handleSaveAsDraft}
               >
+                {isSubmitting && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 Save as Draft
               </Button>
             )}
@@ -399,7 +389,17 @@ export function BlogForm({ post, mode }: BlogFormProps) {
               {isSubmitting && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-              {status === "DRAFT" ? "Publish Now" : "Update Post"}
+              {status === "DRAFT" ? (
+                <>
+                  <Eye className="mr-2 h-4 w-4" />
+                  Publish Now
+                </>
+              ) : (
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  Update Post
+                </>
+              )}
             </Button>
           </div>
         </div>
