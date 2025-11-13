@@ -42,79 +42,67 @@ export default async function BlogPage() {
             </p>
           </div>
         ) : (
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {publishedPosts.map((post) => (
-              <article
+              <Link
                 key={post.id}
-                className="bg-card rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border border-border"
+                href={`/blog/${post.slug}`}
+                className="group"
               >
-                {post.featuredImage && (
-                  <div className="relative h-48 w-full">
-                    <Image
-                      src={post.featuredImage}
-                      alt={post.title}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                )}
+                <article className="bg-card rounded-xl shadow-sm hover:shadow-xl overflow-hidden border border-border transition-all duration-300 h-full flex flex-col">
+                  {post.featuredImage && (
+                    <div className="relative h-52 w-full overflow-hidden">
+                      <Image
+                        src={post.featuredImage}
+                        alt={post.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0" />
+                    </div>
+                  )}
 
-                <div className="p-6">
-                  <div className="flex flex-wrap gap-2 mb-3">
-                    {post.categories.map((category) => (
-                      <span
-                        key={category}
-                        className="px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full"
-                      >
-                        {category}
-                      </span>
-                    ))}
-                  </div>
+                  <div className="p-6 flex flex-col flex-1">
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {post.categories.slice(0, 2).map((category) => (
+                        <span
+                          key={category}
+                          className="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full"
+                        >
+                          {category}
+                        </span>
+                      ))}
+                    </div>
 
-                  <h2 className="text-xl font-bold text-foreground mb-3 line-clamp-2">
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="hover:text-primary transition-colors"
-                    >
+                    <h2 className="text-xl font-bold text-foreground mb-3 line-clamp-2 group-hover:text-primary transition-colors">
                       {post.title}
-                    </Link>
-                  </h2>
+                    </h2>
 
-                  <p className="text-muted-foreground mb-4 line-clamp-3">
-                    {post.excerpt}
-                  </p>
+                    <p className="text-muted-foreground mb-4 line-clamp-3 text-sm flex-1">
+                      {post.excerpt}
+                    </p>
 
-                  <div className="flex items-center justify-between text-sm text-muted-foreground">
-                    <span>By {post.author}</span>
-                    <span>
-                      {post.publishedAt &&
-                        formatDistanceToNow(new Date(post.publishedAt), {
-                          addSuffix: true,
-                        })}
-                    </span>
+                    <div className="flex items-center justify-between pt-4 border-t border-border">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                          <span className="text-primary text-xs font-bold">
+                            {post.author.charAt(0).toUpperCase()}
+                          </span>
+                        </div>
+                        <span className="text-sm text-muted-foreground font-medium">
+                          {post.author}
+                        </span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">
+                        {post.publishedAt &&
+                          formatDistanceToNow(new Date(post.publishedAt), {
+                            addSuffix: true,
+                          })}
+                      </span>
+                    </div>
                   </div>
-
-                  <div className="mt-4">
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="inline-flex items-center text-primary hover:text-primary/80 font-medium"
-                    >
-                      Read more
-                      <svg
-                        className="ml-1 w-4 h-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                    </Link>
-                  </div>
-                </div>
-              </article>
+                </article>
+              </Link>
             ))}
           </div>
         )}

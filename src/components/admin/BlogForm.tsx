@@ -115,7 +115,7 @@ export function BlogForm({ post, mode }: BlogFormProps) {
           <CardHeader>
             <CardTitle>Post Content</CardTitle>
             {/* Additional Settings Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="">
               {/* Publish Settings */}
               <Card>
                 <CardHeader className="text-center">
