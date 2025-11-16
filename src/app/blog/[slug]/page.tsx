@@ -3,6 +3,11 @@ import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+
+// Force dynamic rendering to prevent caching issues
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 interface BlogPostPageProps {
   params: Promise<{
@@ -29,6 +34,40 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* JSON-LD Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.title,
+            description: post.excerpt,
+            image: post.featuredImage || undefined,
+            author: {
+              "@type": "Person",
+              name: post.author,
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "Spence Creations",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://spencecreations.co.ke/logo.png",
+              },
+            },
+            datePublished: post.publishedAt?.toISOString(),
+            dateModified: post.updatedAt.toISOString(),
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `https://spencecreations.co.ke/blog/${post.slug}`,
+            },
+            keywords: post.tags.join(", "),
+            articleSection: post.categories.join(", "),
+          }),
+        }}
+      />
+
       {/* Navigation */}
       <div className="border-b border-border">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -165,13 +204,14 @@ export async function generateStaticParams() {
 }
 
 // Generate metadata for SEO
-export async function generateMetadata({ params }: BlogPostPageProps) {
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params;
   const result = await getBlogPosts();
 
   if (!result.success || !result.data) {
     return {
-      title: "Blog Post Not Found",
+      title: "Blog Post Not Found | Spence Creations",
+      description: "The requested blog post could not be found.",
     };
   }
 
@@ -181,18 +221,41 @@ export async function generateMetadata({ params }: BlogPostPageProps) {
 
   if (!post) {
     return {
-      title: "Blog Post Not Found",
+      title: "Blog Post Not Found | Spence Creations",
+      description: "The requested blog post could not be found.",
     };
   }
 
   return {
-    title: post.title,
+    title: `${post.title} | Spence Creations Blog`,
     description: post.metaDescription || post.excerpt,
-    keywords: post.metaKeywords?.join(", "),
+    keywords: post.metaKeywords?.length > 0 ? post.metaKeywords : post.tags,
+    authors: [{ name: post.author }],
     openGraph: {
       title: post.title,
       description: post.metaDescription || post.excerpt,
+      type: "article",
+      publishedTime: post.publishedAt?.toISOString(),
+      authors: [post.author],
+      images: post.featuredImage ? [
+        {
+          url: post.featuredImage,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        }
+      ] : [],
+      url: `https://spencecreations.co.ke/blog/${slug}`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.metaDescription || post.excerpt,
       images: post.featuredImage ? [post.featuredImage] : [],
+      creator: "@spencecreations",
+    },
+    alternates: {
+      canonical: `https://spencecreations.co.ke/blog/${slug}`,
     },
   };
 }

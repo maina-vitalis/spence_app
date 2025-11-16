@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 
 // Validation schema for blog post data
@@ -125,7 +125,16 @@ export async function createBlogPost(formData: FormData) {
       data: postData,
     });
 
+    // Revalidate all pages that display blog posts
     revalidatePath("/admin/blog");
+    revalidatePath("/blog");
+    revalidatePath("/");
+    revalidatePath("/admin");
+    if (postData.status === "PUBLISHED") {
+      revalidatePath(`/blog/${slug}`);
+    }
+    revalidateTag("blog-posts");
+    
     return { success: true, data: post };
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -225,8 +234,21 @@ export async function updateBlogPost(id: string, formData: FormData) {
       data: postData,
     });
 
+    // Revalidate all pages that display blog posts
     revalidatePath("/admin/blog");
     revalidatePath(`/admin/blog/${id}/edit`);
+    revalidatePath("/blog");
+    revalidatePath("/");
+    revalidatePath("/admin");
+    // Revalidate old and new slug pages
+    if (currentPost.slug !== slug) {
+      revalidatePath(`/blog/${currentPost.slug}`);
+    }
+    if (postData.status === "PUBLISHED") {
+      revalidatePath(`/blog/${slug}`);
+    }
+    revalidateTag("blog-posts");
+    
     return { success: true, data: post };
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -245,11 +267,25 @@ export async function updateBlogPost(id: string, formData: FormData) {
 // Delete blog post
 export async function deleteBlogPost(id: string) {
   try {
+    const postToDelete = await prisma.blogPost.findUnique({
+      where: { id },
+      select: { slug: true },
+    });
+
     await prisma.blogPost.delete({
       where: { id },
     });
 
+    // Revalidate all pages that display blog posts
     revalidatePath("/admin/blog");
+    revalidatePath("/blog");
+    revalidatePath("/");
+    revalidatePath("/admin");
+    if (postToDelete) {
+      revalidatePath(`/blog/${postToDelete.slug}`);
+    }
+    revalidateTag("blog-posts");
+    
     return { success: true };
   } catch (error) {
     console.error("Error deleting blog post:", error);
@@ -262,7 +298,7 @@ export async function toggleBlogPostStatus(id: string) {
   try {
     const post = await prisma.blogPost.findUnique({
       where: { id },
-      select: { status: true },
+      select: { status: true, slug: true },
     });
 
     if (!post) {
@@ -280,7 +316,14 @@ export async function toggleBlogPostStatus(id: string) {
       },
     });
 
+    // Revalidate all pages that display blog posts
     revalidatePath("/admin/blog");
+    revalidatePath("/blog");
+    revalidatePath("/");
+    revalidatePath("/admin");
+    revalidatePath(`/blog/${post.slug}`);
+    revalidateTag("blog-posts");
+    
     return { success: true, data: updatedPost };
   } catch (error) {
     console.error("Error toggling blog post status:", error);

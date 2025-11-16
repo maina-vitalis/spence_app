@@ -2,6 +2,41 @@ import { getBlogPosts } from "@/lib/actions/blog";
 import { formatDistanceToNow } from "date-fns";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+// Force dynamic rendering to prevent caching issues
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+// Enhanced SEO metadata
+export const metadata: Metadata = {
+  title: "Blog | Spence Creations - Web Development Insights & Tutorials",
+  description: "Discover the latest web development insights, tutorials, and industry best practices. Learn about modern web technologies, design patterns, and development strategies.",
+  keywords: [
+    "web development blog",
+    "programming tutorials",
+    "tech articles",
+    "coding tips",
+    "software development",
+    "Next.js tutorials",
+    "React guides",
+    "web design",
+  ],
+  openGraph: {
+    title: "Blog | Spence Creations",
+    description: "Discover insights, tutorials, and stories from our development journey",
+    type: "website",
+    url: "https://spencecreations.co.ke/blog",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog | Spence Creations",
+    description: "Discover insights, tutorials, and stories from our development journey",
+  },
+  alternates: {
+    canonical: "https://spencecreations.co.ke/blog",
+  },
+};
 
 export default async function BlogPage() {
   const result = await getBlogPosts();
