@@ -5,6 +5,10 @@ import { getProjects } from "@/lib/actions/projects";
 import { Plus, Search } from "lucide-react";
 import Link from "next/link";
 
+// Force dynamic rendering to prevent caching issues
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function ProjectsPage() {
   const result = await getProjects();
 

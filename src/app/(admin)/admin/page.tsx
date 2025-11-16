@@ -9,6 +9,10 @@ import { getProjects } from "@/lib/actions/projects";
 import { prisma } from "@/lib/prisma";
 import { BarChart3, FileText, FolderOpen, Users } from "lucide-react";
 
+// Force dynamic rendering to prevent caching issues
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export default async function AdminDashboard() {
   // Get project stats
   const projectsResult = await getProjects();

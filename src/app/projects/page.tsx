@@ -1,6 +1,10 @@
 import { ProjectCard } from "@/components/ProjectCard";
 import { getProjects } from "@/lib/actions/projects";
 
+// Force dynamic rendering to prevent caching issues
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const metadata = {
   title: "Our Projects | Spence Creations",
   description:

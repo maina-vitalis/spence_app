@@ -1,7 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 
 // Validation schema for project data
@@ -88,7 +88,13 @@ export async function createProject(formData: FormData) {
       data: projectData,
     });
 
+    // Revalidate all pages that display projects
     revalidatePath("/admin/projects");
+    revalidatePath("/projects");
+    revalidatePath("/");
+    revalidatePath("/admin");
+    revalidateTag("projects");
+    
     return { success: true, data: project };
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -135,8 +141,14 @@ export async function updateProject(id: string, formData: FormData) {
       data: projectData,
     });
 
+    // Revalidate all pages that display projects
     revalidatePath("/admin/projects");
     revalidatePath(`/admin/projects/${id}/edit`);
+    revalidatePath("/projects");
+    revalidatePath("/");
+    revalidatePath("/admin");
+    revalidateTag("projects");
+    
     return { success: true, data: project };
   } catch (error) {
     if (error instanceof z.ZodError) {
@@ -159,7 +171,13 @@ export async function deleteProject(id: string) {
       where: { id },
     });
 
+    // Revalidate all pages that display projects
     revalidatePath("/admin/projects");
+    revalidatePath("/projects");
+    revalidatePath("/");
+    revalidatePath("/admin");
+    revalidateTag("projects");
+    
     return { success: true };
   } catch (error) {
     console.error("Error deleting project:", error);
@@ -184,7 +202,13 @@ export async function toggleProjectFeatured(id: string) {
       data: { featured: !project.featured },
     });
 
+    // Revalidate all pages that display projects
     revalidatePath("/admin/projects");
+    revalidatePath("/projects");
+    revalidatePath("/");
+    revalidatePath("/admin");
+    revalidateTag("projects");
+    
     return { success: true, data: updatedProject };
   } catch (error) {
     console.error("Error toggling project featured status:", error);
