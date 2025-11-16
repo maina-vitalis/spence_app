@@ -138,18 +138,30 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
         {/* Content */}
         <div className="prose prose-gray dark:prose-invert prose-lg max-w-none
-          prose-headings:font-bold prose-headings:tracking-tight
-          prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl
-          prose-p:text-foreground/90 prose-p:leading-relaxed
-          prose-a:text-primary prose-a:font-medium prose-a:no-underline hover:prose-a:underline
+          prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-foreground
+          prose-h1:text-4xl prose-h1:mb-4 prose-h1:mt-8
+          prose-h2:text-3xl prose-h2:mb-3 prose-h2:mt-6
+          prose-h3:text-2xl prose-h3:mb-2 prose-h3:mt-5
+          prose-p:text-foreground/90 prose-p:leading-relaxed prose-p:mb-4
+          prose-a:text-primary prose-a:font-medium prose-a:underline prose-a:underline-offset-2 hover:prose-a:text-primary/80
           prose-strong:text-foreground prose-strong:font-semibold
-          prose-code:text-sm prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none
-          prose-pre:bg-muted prose-pre:border prose-pre:border-border
-          prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:py-1
-          prose-img:rounded-lg prose-img:border prose-img:border-border
-          prose-hr:border-border
-          prose-ul:list-disc prose-ol:list-decimal">
-          <div dangerouslySetInnerHTML={{ __html: post.content }} />
+          prose-em:text-foreground prose-em:italic
+          prose-code:text-sm prose-code:bg-muted prose-code:text-foreground prose-code:px-2 prose-code:py-1 prose-code:rounded prose-code:font-mono prose-code:before:content-[''] prose-code:after:content-['']
+          prose-pre:bg-slate-900 dark:prose-pre:bg-slate-950 prose-pre:text-slate-50 prose-pre:border prose-pre:border-border prose-pre:rounded-lg prose-pre:p-4 prose-pre:overflow-x-auto prose-pre:my-6
+          prose-pre>code:bg-transparent prose-pre>code:text-inherit prose-pre>code:p-0 prose-pre>code:font-mono prose-pre>code:text-sm
+          prose-blockquote:border-l-4 prose-blockquote:border-l-primary prose-blockquote:bg-muted/50 prose-blockquote:py-2 prose-blockquote:px-4 prose-blockquote:italic prose-blockquote:my-6
+          prose-img:rounded-lg prose-img:border prose-img:border-border prose-img:my-8 prose-img:shadow-md
+          prose-hr:border-border prose-hr:my-8
+          prose-ul:list-disc prose-ul:pl-6 prose-ul:my-4 prose-ul:space-y-2
+          prose-ol:list-decimal prose-ol:pl-6 prose-ol:my-4 prose-ol:space-y-2
+          prose-li:text-foreground/90 prose-li:leading-relaxed
+          [&>*]:whitespace-pre-wrap
+          [&_br]:block [&_br]:content-[''] [&_br]:my-2
+          ">
+          <div 
+            dangerouslySetInnerHTML={{ __html: post.content }} 
+            className="tiptap-content"
+          />
         </div>
 
         {/* Tags */}
