@@ -43,15 +43,18 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/admin/login",
     error: "/admin/login",
+    signOut: "/",
   },
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   secret: process.env.NEXTAUTH_SECRET,
+  useSecureCookies: process.env.NODE_ENV === "production",
   events: {
     async signOut() {
       // Clear any server-side session data if needed
+      console.log("User signed out");
     },
   },
 };
