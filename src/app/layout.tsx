@@ -6,6 +6,8 @@ import NavBar from "@/components/navbar/NavBar";
 import QueryProvider from "@/util/ReactQueryProvider";
 import { Toaster } from "sonner";
 import Footer from "@/components/Footer";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://spencecreations.co.ke"),
@@ -98,16 +100,16 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              "name": "Spence Creations",
-              "url": "https://spencecreations.co.ke",
-              "logo": "https://spencecreations.co.ke/logo.png",
-              "contactPoint": {
+              name: "Spence Creations",
+              url: "https://spencecreations.co.ke",
+              logo: "https://spencecreations.co.ke/logo.png",
+              contactPoint: {
                 "@type": "ContactPoint",
-                "telephone": "+254799732696",
-                "contactType": "Customer Service",
-                "email": "info@spencecreations.co.ke",
+                telephone: "+254799732696",
+                contactType: "Customer Service",
+                email: "info@spencecreations.co.ke",
               },
-              "sameAs": [],
+              sameAs: [],
             }),
           }}
         />
@@ -117,15 +119,16 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              "url": "https://spencecreations.co.ke",
-              "potentialAction": {
+              url: "https://spencecreations.co.ke",
+              potentialAction: {
                 "@type": "SearchAction",
-                "target": {
+                target: {
                   "@type": "EntryPoint",
-                  "urlTemplate": "https://spencecreations.co.ke/search?q={search_term_string}"
+                  urlTemplate:
+                    "https://spencecreations.co.ke/search?q={search_term_string}",
                 },
-                "query": "required name=search_term_string"
-              }
+                query: "required name=search_term_string",
+              },
             }),
           }}
         />
@@ -141,6 +144,8 @@ export default function RootLayout({
             <Toaster richColors position="top-right" visibleToasts={1} />
           </QueryProvider>
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
