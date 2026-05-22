@@ -1,5 +1,6 @@
 "use server";
 
+import { requireAdmin } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
@@ -70,6 +71,8 @@ export async function getBlogPost(id: string) {
 // Create new blog post
 export async function createBlogPost(formData: FormData) {
   try {
+    await requireAdmin();
+
     const rawData = {
       title: formData.get("title") as string,
       content: formData.get("content") as string,
@@ -153,6 +156,8 @@ export async function createBlogPost(formData: FormData) {
 // Update existing blog post
 export async function updateBlogPost(id: string, formData: FormData) {
   try {
+    await requireAdmin();
+
     const rawData = {
       title: formData.get("title") as string,
       content: formData.get("content") as string,
@@ -267,6 +272,8 @@ export async function updateBlogPost(id: string, formData: FormData) {
 // Delete blog post
 export async function deleteBlogPost(id: string) {
   try {
+    await requireAdmin();
+
     const postToDelete = await prisma.blogPost.findUnique({
       where: { id },
       select: { slug: true },
@@ -296,6 +303,8 @@ export async function deleteBlogPost(id: string) {
 // Toggle blog post status
 export async function toggleBlogPostStatus(id: string) {
   try {
+    await requireAdmin();
+
     const post = await prisma.blogPost.findUnique({
       where: { id },
       select: { status: true, slug: true },

@@ -1,46 +1,46 @@
 import { withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
+import { isAdminEmail } from "@/lib/admin-emails";
 
 export default withAuth(
   function middleware(req) {
     const token = req.nextauth.token;
-    const isAdminPath = req.nextUrl.pathname.startsWith("/admin");
-    const isLoginPath = req.nextUrl.pathname === "/admin/login";
+    const { pathname } = req.nextUrl;
+    const isLoginPath = pathname === "/admin/login";
 
-    // If on login page and authenticated, redirect to admin dashboard
-    if (isLoginPath && token) {
+    if (isLoginPath && token?.role === "admin") {
       return NextResponse.redirect(new URL("/admin", req.url));
     }
 
-    // Check if user is trying to access admin routes (except login)
-    if (isAdminPath && !isLoginPath) {
-      // If not authenticated, redirect to login
+    if (!isLoginPath && pathname.startsWith("/admin")) {
       if (!token) {
         return NextResponse.redirect(new URL("/admin/login", req.url));
       }
 
-      // Check if user has admin role
-      const adminEmails = process.env.ADMIN_EMAILS?.split(",") || [];
       const userEmail = token.email as string | undefined;
-
-      if (!userEmail || !adminEmails.includes(userEmail)) {
-        return NextResponse.redirect(new URL("/", req.url));
+      if (!isAdminEmail(userEmail)) {
+        return NextResponse.redirect(
+          new URL("/admin/login?error=AccessDenied", req.url)
+        );
       }
     }
 
     return NextResponse.next();
   },
   {
+    pages: {
+      signIn: "/admin/login",
+    },
     callbacks: {
       authorized: ({ token, req }) => {
-        // Allow access to login page without authentication
-        if (req.nextUrl.pathname === "/admin/login") {
+        const { pathname } = req.nextUrl;
+
+        if (pathname === "/admin/login") {
           return true;
         }
 
-        // For admin routes, require token
-        if (req.nextUrl.pathname.startsWith("/admin")) {
-          return !!token;
+        if (pathname === "/admin" || pathname.startsWith("/admin/")) {
+          return !!token && token.role === "admin";
         }
 
         return true;
@@ -50,5 +50,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/admin/:path*"],
+  matcher: ["/admin", "/admin/:path*"],
 };

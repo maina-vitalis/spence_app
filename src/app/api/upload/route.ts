@@ -1,7 +1,7 @@
+import { getAdminSession } from "@/lib/auth-server";
 import { v2 as cloudinary } from "cloudinary";
 import { NextRequest, NextResponse } from "next/server";
 
-// Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -9,6 +9,12 @@ cloudinary.config({
 });
 
 export async function POST(request: NextRequest) {
+  const session = await getAdminSession();
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   try {
     const data = await request.formData();
     const file: File | null = data.get("file") as unknown as File;
@@ -17,7 +23,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
-    // Validate file type
     const allowedTypes = [
       "image/jpeg",
       "image/jpg",
@@ -35,8 +40,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate file size (5MB limit)
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 5 * 1024 * 1024;
     if (file.size > maxSize) {
       return NextResponse.json(
         { error: "File too large. Maximum size is 5MB." },
@@ -44,19 +48,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Convert file to base64 for Cloudinary upload
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     const base64Data = buffer.toString("base64");
     const dataURI = `data:${file.type};base64,${base64Data}`;
 
-    // Upload to Cloudinary with optimization
     const result = await cloudinary.uploader.upload(dataURI, {
-      folder: "spence-creations", // Organize uploads in a folder
+      folder: "spence-creations",
       resource_type: "auto",
       transformation: [
-        { quality: "auto", fetch_format: "auto" }, // Auto optimization
-        { width: 1200, height: 800, crop: "limit" }, // Limit max dimensions
+        { quality: "auto", fetch_format: "auto" },
+        { width: 1200, height: 800, crop: "limit" },
       ],
       public_id: `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`,
     });

@@ -50,20 +50,10 @@ function SidebarContent() {
   const { data: session } = useSession();
 
   const handleSignOut = async () => {
-    try {
-      // Call our custom signout endpoint first to clear cookies
-      await fetch("/api/auth/signout", { method: "POST" });
-      
-      // Then use NextAuth signOut
-      await signOut({ 
-        callbackUrl: "/",
-        redirect: true 
-      });
-    } catch (error) {
-      console.error("Sign out error:", error);
-      // Force redirect to home page even if there's an error
-      window.location.href = "/";
-    }
+    await signOut({
+      callbackUrl: "/",
+      redirect: true,
+    });
   };
 
   return (

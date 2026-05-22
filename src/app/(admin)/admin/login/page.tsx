@@ -9,36 +9,45 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getSession, signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 import { FaGithub, FaGoogle } from "react-icons/fa";
 
-export default function AdminLoginPage() {
+const errorMessages: Record<string, string> = {
+  AccessDenied:
+    "Access denied. Your account is not authorized for admin access.",
+  OAuthSignin: "Could not start sign-in. Please try again.",
+  OAuthCallback: "Sign-in failed during the OAuth callback. Please try again.",
+  OAuthCreateAccount: "Could not create an account. Please try again.",
+  Callback: "Sign-in callback failed. Please try again.",
+  Default: "An unexpected sign-in error occurred. Please try again.",
+};
+
+function AdminLoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
 
+  const errorCode = searchParams.get("error");
+  const errorMessage = errorCode
+    ? (errorMessages[errorCode] ?? errorMessages.Default)
+    : null;
+
   useEffect(() => {
-    // Check if user is already authenticated
     getSession().then((session) => {
       if (session?.user?.role === "admin") {
-        router.push("/admin");
-        router.refresh();
+        router.replace("/admin");
       }
     });
   }, [router]);
 
-  const handleSignIn = async (provider: string) => {
+  const handleSignIn = async (provider: "google" | "github") => {
     setIsLoading(true);
     try {
-      const result = await signIn(provider, {
+      await signIn(provider, {
         callbackUrl: "/admin",
         redirect: true,
       });
-
-      if (result?.error) {
-        console.error("Sign in error:", result.error);
-        setIsLoading(false);
-      }
     } catch (error) {
       console.error("Sign in error:", error);
       setIsLoading(false);
@@ -46,7 +55,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Admin Login</CardTitle>
@@ -55,6 +64,12 @@ export default function AdminLoginPage() {
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
+          {errorMessage && (
+            <div className="rounded-md border border-destructive/50 bg-destructive/10 px-3 py-2 text-sm text-destructive">
+              {errorMessage}
+            </div>
+          )}
+
           <Button
             onClick={() => handleSignIn("google")}
             disabled={isLoading}
@@ -81,5 +96,13 @@ export default function AdminLoginPage() {
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <AdminLoginForm />
+    </Suspense>
   );
 }

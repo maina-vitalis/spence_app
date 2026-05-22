@@ -1,5 +1,6 @@
 "use server";
 
+import { requireAdmin } from "@/lib/auth-server";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
@@ -61,6 +62,8 @@ export async function getProject(id: string) {
 // Create new project
 export async function createProject(formData: FormData) {
   try {
+    await requireAdmin();
+
     const rawData = {
       title: formData.get("title") as string,
       description: formData.get("description") as string,
@@ -113,6 +116,8 @@ export async function createProject(formData: FormData) {
 // Update existing project
 export async function updateProject(id: string, formData: FormData) {
   try {
+    await requireAdmin();
+
     const rawData = {
       title: formData.get("title") as string,
       description: formData.get("description") as string,
@@ -167,6 +172,8 @@ export async function updateProject(id: string, formData: FormData) {
 // Delete project
 export async function deleteProject(id: string) {
   try {
+    await requireAdmin();
+
     await prisma.project.delete({
       where: { id },
     });
@@ -188,6 +195,8 @@ export async function deleteProject(id: string) {
 // Toggle featured status
 export async function toggleProjectFeatured(id: string) {
   try {
+    await requireAdmin();
+
     const project = await prisma.project.findUnique({
       where: { id },
       select: { featured: true },

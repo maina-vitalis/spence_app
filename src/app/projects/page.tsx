@@ -1,8 +1,7 @@
 import { ProjectCard } from "@/components/ProjectCard";
 import { getProjects } from "@/lib/actions/projects";
 
-// Force dynamic rendering to prevent caching issues
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export const metadata = {
@@ -16,20 +15,11 @@ async function page() {
 
   if (!result.success || !result.data) {
     return (
-      <div className="space-y-10">
-        <section className="mx-auto mt-6 space-y-10">
-          <div className="flex flex-col items-center text-center">
-            <div className="flex gap-2 items-center mb-1">
-              <div className="w-1 h-1 rounded-full bg-blue-500" />
-              <p className="text-sm">Get in Touch</p>
-              <div className="w-1 h-1 rounded-full bg-primary" />
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-semibold mb-4 font-space-grotesk tracking-tight leading-[1.15]">
-              Recent Projects
-            </h2>
-            <p className="text-red-600">Failed to load projects</p>
-          </div>
-        </section>
+      <div className="py-12">
+        <div className="text-center space-y-3">
+          <h1 className="text-3xl font-semibold">Recent Projects</h1>
+          <p className="text-destructive">Failed to load projects</p>
+        </div>
       </div>
     );
   }
@@ -37,34 +27,20 @@ async function page() {
   const projects = result.data;
 
   return (
-    <div className="space-y-10">
-      <section className="mx-auto mt-6 space-y-10">
-        <div className="flex flex-col items-center text-center">
-          <div className="flex gap-2 items-center mb-1">
-            <div className="w-1 h-1 rounded-full bg-blue-500" />
-            <p className="text-sm">Get in Touch</p>
-            <div className="w-1 h-1 rounded-full bg-primary" />
-          </div>
-          <h2 className="text-2xl sm:text-4xl font-semibold mb-4 font-space-grotesk tracking-tight leading-[1.15]">
-            Recent Projects
-          </h2>
-          <p className="text-sm font-light">
-            Explore our latest projects and see how we bring ideas to life.
-          </p>
-          <div className="mt-6 flex items-center gap-2">
-            <div className="w-8 h-px bg-gradient-to-r from-transparent to-blue-500/50"></div>
-            <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full"></div>
-            <div className="w-8 h-px bg-gradient-to-l from-transparent to-blue-600/50"></div>
-          </div>
-        </div>
-      </section>
+    <div className="space-y-10 py-8">
+      <header className="text-center space-y-3">
+        <h1 className="text-3xl sm:text-4xl font-semibold">Recent Projects</h1>
+        <p className="text-muted-foreground max-w-2xl mx-auto">
+          Explore our latest projects and see how we bring ideas to life.
+        </p>
+      </header>
 
       {projects.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-600 text-lg">No projects available yet</p>
+          <p className="text-muted-foreground">No projects available yet.</p>
         </div>
       ) : (
-        <div className="grid gap-10 [grid-template-columns:repeat(auto-fit,minmax(350px,1fr))]">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <ProjectCard
               key={project.id}
