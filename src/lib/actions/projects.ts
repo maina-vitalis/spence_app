@@ -96,7 +96,7 @@ export async function createProject(formData: FormData) {
     revalidatePath("/projects");
     revalidatePath("/");
     revalidatePath("/admin");
-    revalidateTag("projects");
+    revalidateTag("projects", "max");
     
     return { success: true, data: project };
   } catch (error) {
@@ -152,7 +152,7 @@ export async function updateProject(id: string, formData: FormData) {
     revalidatePath("/projects");
     revalidatePath("/");
     revalidatePath("/admin");
-    revalidateTag("projects");
+    revalidateTag("projects", "max");
     
     return { success: true, data: project };
   } catch (error) {
@@ -183,7 +183,7 @@ export async function deleteProject(id: string) {
     revalidatePath("/projects");
     revalidatePath("/");
     revalidatePath("/admin");
-    revalidateTag("projects");
+    revalidateTag("projects", "max");
     
     return { success: true };
   } catch (error) {
@@ -216,7 +216,7 @@ export async function toggleProjectFeatured(id: string) {
     revalidatePath("/projects");
     revalidatePath("/");
     revalidatePath("/admin");
-    revalidateTag("projects");
+    revalidateTag("projects", "max");
     
     return { success: true, data: updatedProject };
   } catch (error) {

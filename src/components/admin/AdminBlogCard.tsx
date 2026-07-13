@@ -28,7 +28,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { deleteBlogPost, toggleBlogPostStatus } from "@/lib/actions/blog";
-import { BlogPost } from "@prisma/client";
+import { BlogPost } from "@/generated/prisma/client";
 import {
   Calendar,
   Edit,

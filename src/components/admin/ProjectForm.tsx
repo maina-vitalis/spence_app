@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createProject, updateProject } from "@/lib/actions/projects";
-import { Project } from "@prisma/client";
+import { Project } from "@/generated/prisma/client";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

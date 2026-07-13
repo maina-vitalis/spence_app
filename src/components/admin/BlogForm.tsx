@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { createBlogPost, updateBlogPost } from "@/lib/actions/blog";
-import { BlogPost } from "@prisma/client";
+import { BlogPost } from "@/generated/prisma/client";
 import { ArrowLeft, Eye, Loader2, Save } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

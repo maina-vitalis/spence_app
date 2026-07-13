@@ -136,7 +136,7 @@ export async function createBlogPost(formData: FormData) {
     if (postData.status === "PUBLISHED") {
       revalidatePath(`/blog/${slug}`);
     }
-    revalidateTag("blog-posts");
+    revalidateTag("blog-posts", "max");
     
     return { success: true, data: post };
   } catch (error) {
@@ -252,7 +252,7 @@ export async function updateBlogPost(id: string, formData: FormData) {
     if (postData.status === "PUBLISHED") {
       revalidatePath(`/blog/${slug}`);
     }
-    revalidateTag("blog-posts");
+    revalidateTag("blog-posts", "max");
     
     return { success: true, data: post };
   } catch (error) {
@@ -291,7 +291,7 @@ export async function deleteBlogPost(id: string) {
     if (postToDelete) {
       revalidatePath(`/blog/${postToDelete.slug}`);
     }
-    revalidateTag("blog-posts");
+    revalidateTag("blog-posts", "max");
     
     return { success: true };
   } catch (error) {
@@ -331,7 +331,7 @@ export async function toggleBlogPostStatus(id: string) {
     revalidatePath("/");
     revalidatePath("/admin");
     revalidatePath(`/blog/${post.slug}`);
-    revalidateTag("blog-posts");
+    revalidateTag("blog-posts", "max");
     
     return { success: true, data: updatedPost };
   } catch (error) {

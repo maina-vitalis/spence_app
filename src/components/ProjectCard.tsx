@@ -8,7 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { ExternalLink, Github, Star } from "lucide-react";
+import { ExternalLink, Star } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -84,7 +85,7 @@ export function ProjectCard({
           {githubUrl && (
             <Button asChild variant="outline" className="flex-1">
               <Link href={githubUrl} target="_blank" rel="noopener noreferrer">
-                <Github className="mr-2 h-4 w-4" />
+                <FaGithub className="mr-2 h-4 w-4" />
                 View Code
               </Link>
             </Button>

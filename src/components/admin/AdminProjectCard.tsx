@@ -28,16 +28,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { deleteProject, toggleProjectFeatured } from "@/lib/actions/projects";
-import { Project } from "@prisma/client";
+import { Project } from "@/generated/prisma/client";
 import {
   Edit,
   ExternalLink,
   Eye,
-  Github,
   MoreVertical,
   Star,
   Trash2,
 } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -166,7 +166,7 @@ export function AdminProjectCard({ project }: AdminProjectCardProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Github className="h-4 w-4 mr-2" />
+                    <FaGithub className="h-4 w-4 mr-2" />
                     View Code
                   </a>
                 </DropdownMenuItem>
