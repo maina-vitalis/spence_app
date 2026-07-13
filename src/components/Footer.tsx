@@ -10,7 +10,6 @@ export default function Footer() {
   return (
     <footer className="py-12">
       <div className="mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-        {/* Logo and Description */}
         <div className="space-y-6">
           <Image
             src={logo}
@@ -21,9 +20,8 @@ export default function Footer() {
           />
 
           <p className="text-gray-400 text-xs">
-            Professional web development and design agency specializing in
-            creating modern, responsive websites and custom web applications for
-            businesses.
+            Developer portfolio showcasing projects, case studies, and writing
+            about modern web development.
           </p>
 
           <div className="flex space-x-3">
@@ -56,24 +54,31 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Useful Links */}
         <div className="space-y-6">
           <h3 className="font-semibold text-sm">Quick Links</h3>
           <ul className="space-y-3">
             <li>
               <Link
-                href="/about-us"
+                href="/projects"
                 className="hover:text-primary transition-colors text-xs"
               >
-                About Us
+                Projects
               </Link>
             </li>
             <li>
               <Link
-                href="/#services"
+                href="/about-us"
                 className="hover:text-primary transition-colors text-xs"
               >
-                Our Services
+                About
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/blog"
+                className="hover:text-primary transition-colors text-xs"
+              >
+                Blog
               </Link>
             </li>
             <li>
@@ -81,24 +86,15 @@ export default function Footer() {
                 href="/contact"
                 className="hover:text-primary transition-colors text-xs"
               >
-                Contact Us
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/projects"
-                className="hover:text-primary transition-colors text-xs"
-              >
-                Projects{" "}
+                Contact
               </Link>
             </li>
           </ul>
         </div>
 
-        {/* Contact Information */}
         <div className="space-y-6">
-          <h3 className="font-semibold text-sm">Contact Information</h3>
-          <p className="text-xs">Let&apos;s discuss your next project!</p>
+          <h3 className="font-semibold text-sm">Contact</h3>
+          <p className="text-xs">Open to collaborations and interesting work.</p>
 
           <ul className="space-y-4">
             <li className="flex items-center">
@@ -120,14 +116,11 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Working Hours */}
         <div className="space-y-6">
-          <h3 className="font-semibold text-sm">Working Hours</h3>
+          <h3 className="font-semibold text-sm">Availability</h3>
           <ul className="space-y-3">
             <li className="text-xs">Mon - Sat</li>
-            <li className="text-xs">9:00 AM - 6:00 PM</li>
-            <li className="text-xs">Sun</li>
-            <li className="text-xs">12:00 PM - 6:00 PM</li>
+            <li className="text-xs">9:00 AM - 6:00 PM EAT</li>
           </ul>
         </div>
       </div>

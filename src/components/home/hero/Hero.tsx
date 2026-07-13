@@ -18,23 +18,26 @@ function Hero() {
       />
 
       <div className="relative z-10 flex flex-col-reverse lg:flex-row h-full items-center justify-center px-6 py-12 gap-y-12">
-        {/* Left Content */}
         <div className="flex-1 flex flex-col items-center lg:items-start text-center lg:text-left gap-6">
+          <p className="text-sm font-medium text-primary">Developer portfolio</p>
           <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight">
-            <span className="text-primary">Build</span> modern digital products.
+            I build <span className="text-primary">modern</span> web experiences.
           </h2>
           <p className="text-muted-foreground text-lg max-w-xl">
-            Leveraging cutting-edge tech to deliver reliable, scalable, and
-            modern solutions for your next project.
+            Full-stack developer sharing projects, design process, and the tech
+            decisions behind each build.
           </p>
-          <Button
-            asChild
-            className="rounded-full hover:scale-105 transition-all duration-200 ease-in-out hover:shadow-md"
-          >
-            <Link href="/contact" className="text-white">
-              Get Started
-            </Link>
-          </Button>
+          <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+            <Button
+              asChild
+              className="rounded-full hover:scale-105 transition-all duration-200 ease-in-out hover:shadow-md"
+            >
+              <Link href="/projects">View my work</Link>
+            </Button>
+            <Button asChild variant="outline" className="rounded-full">
+              <Link href="/blog">Read the blog</Link>
+            </Button>
+          </div>
         </div>
 
         <div className="flex-1 flex items-center justify-center">

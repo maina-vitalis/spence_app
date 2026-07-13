@@ -16,14 +16,14 @@ const container = {
   show: {
     opacity: 1,
     transition: {
-      delayChildren: 0.2, // initial delay before children animate
-      staggerChildren: 0.15, // delay between each child
+      delayChildren: 0.2,
+      staggerChildren: 0.15,
     },
   },
 };
 
 const item = {
-  hidden: { opacity: 0, x: 50 }, // more x to slide from far right
+  hidden: { opacity: 0, x: 50 },
   show: {
     opacity: 1,
     x: 0,
@@ -34,6 +34,29 @@ const item = {
     },
   },
 };
+
+const links = [
+  {
+    href: "/projects",
+    title: "Work",
+    description: "Project case studies",
+  },
+  {
+    href: "/about-us",
+    title: "About",
+    description: "Who I am and what I do",
+  },
+  {
+    href: "/blog",
+    title: "Blog",
+    description: "Tech writing and notes",
+  },
+  {
+    href: "/contact",
+    title: "Contact",
+    description: "Get in touch",
+  },
+];
 
 function Mobile() {
   return (
@@ -47,7 +70,7 @@ function Mobile() {
       >
         <SheetHeader className="text-start">
           <p className="font-bold text-xl text-primary text-center">
-            Spence creation
+            Spence Creations
           </p>
         </SheetHeader>
         <motion.div
@@ -56,88 +79,28 @@ function Mobile() {
           animate="show"
           className="space-y-2 flex flex-col"
         >
-          <motion.div variants={item}>
-            <SheetClose asChild>
-              <Link
-                href="/about-us"
-                className="w-full p-2 px-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
-              >
-                <span>
-                  <p className="text-sm font-semibold">About Us</p>
-                  <p className="text-xs">Learn about our team and vision</p>
-                </span>
-                <LinkIcon size={15} strokeWidth={2} />
-              </Link>
-            </SheetClose>
-          </motion.div>
-
+          {links.map((link, index) => (
+            <div key={link.href}>
+              {index > 0 && (
+                <Separator className="bg-gradient-to-r from-transparent via-primary to-transparent" />
+              )}
+              <motion.div variants={item}>
+                <SheetClose asChild>
+                  <Link
+                    href={link.href}
+                    className="w-full p-2 px-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
+                  >
+                    <span>
+                      <p className="text-sm font-semibold">{link.title}</p>
+                      <p className="text-xs">{link.description}</p>
+                    </span>
+                    <LinkIcon size={15} strokeWidth={2} />
+                  </Link>
+                </SheetClose>
+              </motion.div>
+            </div>
+          ))}
           <Separator className="bg-gradient-to-r from-transparent via-primary to-transparent" />
-
-          <motion.div variants={item}>
-            <SheetClose asChild>
-              <Link
-                href="/#services"
-                className="w-full p-2 px-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
-              >
-                <span>
-                  <p className="text-sm font-semibold">Services</p>
-                  <p className="text-xs">Explore what we offer</p>
-                </span>
-                <LinkIcon size={15} />
-              </Link>
-            </SheetClose>
-          </motion.div>
-
-          <Separator className="bg-gradient-to-r from-transparent via-primary to-transparent" />
-
-          <motion.div variants={item}>
-            <SheetClose asChild>
-              <Link
-                href="/projects"
-                className="w-full p-2 px-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
-              >
-                <span>
-                  <p className="text-sm font-semibold">Projects</p>
-                  <p className="text-xs">View our latest work</p>
-                </span>
-                <LinkIcon size={15} />
-              </Link>
-            </SheetClose>
-          </motion.div>
-
-          <Separator className="bg-gradient-to-r from-transparent via-primary to-transparent" />
-
-          <motion.div variants={item}>
-            <SheetClose asChild>
-              <Link
-                href="/blog"
-                className="w-full p-2 px-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
-              >
-                <span>
-                  <p className="text-sm font-semibold">Blog</p>
-                  <p className="text-xs">Read our latest articles</p>
-                </span>
-                <LinkIcon size={15} />
-              </Link>
-            </SheetClose>
-          </motion.div>
-
-          <Separator className="bg-gradient-to-r from-transparent via-primary to-transparent" />
-
-          <motion.div variants={item}>
-            <SheetClose asChild>
-              <Link
-                href="/contact"
-                className="w-full p-2 px-3 rounded-2xl flex items-center justify-between bg-gradient-to-r from-primary/30 to-primary/90 "
-              >
-                <span>
-                  <p className="text-sm font-semibold">Contact us</p>
-                  <p className="text-xs">Talk to us</p>
-                </span>
-                <LinkIcon size={18} strokeWidth={2} />
-              </Link>
-            </SheetClose>
-          </motion.div>
           <motion.div variants={item}>
             <ThemeToggle />
           </motion.div>

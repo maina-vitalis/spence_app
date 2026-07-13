@@ -118,7 +118,7 @@ export function AdminProjectCard({ project }: AdminProjectCardProps) {
               {project.title}
             </CardTitle>
             <CardDescription className="line-clamp-2 mt-1">
-              {project.description}
+              {project.excerpt}
             </CardDescription>
           </div>
 
@@ -142,6 +142,15 @@ export function AdminProjectCard({ project }: AdminProjectCardProps) {
               >
                 <Star className="h-4 w-4 mr-2" />
                 {project.featured ? "Remove from Featured" : "Add to Featured"}
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem asChild>
+                <Link href={`/projects/${project.slug}`} target="_blank">
+                  <Eye className="h-4 w-4 mr-2" />
+                  Preview case study
+                </Link>
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />

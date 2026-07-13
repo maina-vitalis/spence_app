@@ -11,9 +11,9 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://spencecreations.co.ke"),
-  title: "Spence Creation | Web Development & Design Agency",
+  title: "Spence Creations | Developer Portfolio",
   description:
-    "Professional web development and design services specializing in modern, responsive websites, e-commerce solutions, and custom web applications. Transform your digital presence with Spence Creation.",
+    "Portfolio of web development projects, case studies, and tech writing.",
   keywords: [
     "web development",
     "web design",

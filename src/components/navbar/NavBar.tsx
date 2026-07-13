@@ -7,7 +7,6 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -41,25 +40,13 @@ function NavBar() {
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuLink
-                href="/#services"
+                href="/projects"
                 className={cn(
                   navigationMenuTriggerStyle(),
                   "rounded-full text-xs"
                 )}
               >
-                Services
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                href="/contact"
-                className={cn(
-                  navigationMenuTriggerStyle(),
-                  "rounded-full text-xs"
-                )}
-              >
-                Contact-us
+                Work
               </NavigationMenuLink>
             </NavigationMenuItem>
 
@@ -71,19 +58,7 @@ function NavBar() {
                   "rounded-full text-xs"
                 )}
               >
-                About-us
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink
-                href="/projects"
-                className={cn(
-                  navigationMenuTriggerStyle(),
-                  "rounded-full text-xs"
-                )}
-              >
-                Projects
+                About
               </NavigationMenuLink>
             </NavigationMenuItem>
 
@@ -98,15 +73,22 @@ function NavBar() {
                 Blog
               </NavigationMenuLink>
             </NavigationMenuItem>
+
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                href="/contact"
+                className={cn(
+                  navigationMenuTriggerStyle(),
+                  "rounded-full text-xs"
+                )}
+              >
+                Contact
+              </NavigationMenuLink>
+            </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
       </div>
       <div className="md:flex gap-2 items-center hidden ">
-        <div className="items-center gap-2 flex">
-          <Phone size={14} />
-          <p className="text-xs">0799 732 696</p>
-        </div>
-
         <ThemeToggle />
       </div>
 

@@ -6,9 +6,9 @@ import { MdOutlineDesignServices } from "react-icons/md";
 import vitalis from "./../../../public/vitalis.png";
 
 export const metadata = {
-  title: "About Spence Creations | Our Story and Mission",
+  title: "About | Spence Creations",
   description:
-    "Learn about Spence Creations, our passion for digital innovation, our mission to transform ideas into reality, and the story behind our team.",
+    "About Spence Creations — a developer portfolio focused on building modern web products and sharing the process behind them.",
 };
 
 export default function AboutUsPage() {
@@ -23,11 +23,11 @@ export default function AboutUsPage() {
             <div className="w-1 h-1 rounded-full bg-primary" />
           </div>
           <h2 className="text-2xl sm:text-4xl font-bold mb-4 font-space-grotesk tracking-tight leading-[1.15]">
-            Introduction To Best Digital Agency!{" "}
+            About me & the work I build
           </h2>{" "}
           <p className="text-sm font-light">
-            Comprehensive digital solutions tailored to transform your ideas
-            into reality
+            Full-stack developer sharing projects, process, and lessons from
+            building modern web applications
           </p>
           <div className="mt-6 flex items-center gap-2">
             <div className="w-8 h-px bg-gradient-to-r from-transparent to-blue-500/50"></div>
