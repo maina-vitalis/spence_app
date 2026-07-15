@@ -5,7 +5,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import {
-  FileText,
   FolderOpen,
   LayoutDashboard,
   LogOut,
@@ -32,11 +31,6 @@ const navigation = [
     name: "Projects",
     href: "/admin/projects",
     icon: FolderOpen,
-  },
-  {
-    name: "Blog",
-    href: "/admin/blog",
-    icon: FileText,
   },
   {
     name: "Settings",

@@ -6,39 +6,27 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { getProjects } from "@/lib/actions/projects";
-import { prisma } from "@/lib/prisma";
-import { BarChart3, FileText, FolderOpen, Users } from "lucide-react";
+import { BarChart3, FolderOpen, Star } from "lucide-react";
 
-// Force dynamic rendering to prevent caching issues
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function AdminDashboard() {
-  // Get project stats
   const projectsResult = await getProjects();
   const projects =
     projectsResult.success && projectsResult.data ? projectsResult.data : [];
   const featuredProjects = projects.filter((p) => p.featured);
-
-  // Get blog stats
-  const publishedPosts = await prisma.blogPost.count({
-    where: { status: "PUBLISHED" },
-  });
-  const draftPosts = await prisma.blogPost.count({
-    where: { status: "DRAFT" },
-  });
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">
-          Welcome to your admin dashboard. Manage your portfolio and content
-          from here.
+          Welcome to your admin dashboard. Manage your portfolio from here.
         </p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
@@ -54,21 +42,10 @@ export default async function AdminDashboard() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Blog Posts</CardTitle>
-            <FileText className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{publishedPosts}</div>
-            <p className="text-xs text-muted-foreground">Published articles</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Featured Projects
             </CardTitle>
-            <BarChart3 className="h-4 w-4 text-muted-foreground" />
+            <Star className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{featuredProjects.length}</div>
@@ -78,12 +55,14 @@ export default async function AdminDashboard() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Draft Posts</CardTitle>
-            <Users className="h-4 w-4 text-muted-foreground" />
+            <CardTitle className="text-sm font-medium">In Progress</CardTitle>
+            <BarChart3 className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{draftPosts}</div>
-            <p className="text-xs text-muted-foreground">Unpublished drafts</p>
+            <div className="text-2xl font-bold">
+              {projects.filter((p) => p.status === "IN_PROGRESS").length}
+            </div>
+            <p className="text-xs text-muted-foreground">Active builds</p>
           </CardContent>
         </Card>
       </div>
@@ -92,7 +71,7 @@ export default async function AdminDashboard() {
         <Card>
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
-            <CardDescription>Your latest content updates</CardDescription>
+            <CardDescription>Your latest portfolio updates</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -100,16 +79,10 @@ export default async function AdminDashboard() {
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                 <div className="flex-1 space-y-1">
                   <p className="text-sm font-medium">
-                    Database seeded with {projects.length} projects
+                    {projects.length} project{projects.length !== 1 ? "s" : ""}{" "}
+                    in portfolio
                   </p>
-                  <p className="text-xs text-muted-foreground">Recently</p>
-                </div>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                <div className="flex-1 space-y-1">
-                  <p className="text-sm font-medium">Admin dashboard created</p>
-                  <p className="text-xs text-muted-foreground">Today</p>
+                  <p className="text-xs text-muted-foreground">Current</p>
                 </div>
               </div>
             </div>
@@ -127,18 +100,9 @@ export default async function AdminDashboard() {
                 href="/admin/projects/new"
                 className="block w-full text-left p-2 rounded-md hover:bg-muted transition-colors"
               >
-                <div className="font-medium">Add New Project</div>
+                <div className="font-medium">Document New Project</div>
                 <div className="text-sm text-muted-foreground">
-                  Create a new portfolio item
-                </div>
-              </a>
-              <a
-                href="/admin/blog/new"
-                className="block w-full text-left p-2 rounded-md hover:bg-muted transition-colors"
-              >
-                <div className="font-medium">Write Blog Post</div>
-                <div className="text-sm text-muted-foreground">
-                  Start a new article
+                  Create a new portfolio case study
                 </div>
               </a>
               <a

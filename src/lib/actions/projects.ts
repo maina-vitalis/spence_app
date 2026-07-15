@@ -6,23 +6,11 @@ import { generateSlug } from "@/lib/slug";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { z } from "zod";
 
-const TechStackItemSchema = z.object({
-  name: z.string().min(1, "Technology name is required"),
-  reason: z.string().min(1, "Reason is required"),
-});
-
 const ProjectSchema = z.object({
   title: z.string().min(1, "Title is required"),
   slug: z.string().min(1, "Slug is required"),
   excerpt: z.string().min(1, "Excerpt is required"),
-  description: z.string().min(1, "Overview is required"),
-  problemStatement: z.string().default(""),
-  solution: z.string().default(""),
-  designProcess: z.string().default(""),
-  techStack: z.array(TechStackItemSchema).default([]),
-  keyFeatures: z.array(z.string()).default([]),
-  lessonsLearned: z.string().optional().or(z.literal("")),
-  gallery: z.array(z.string().url()).default([]),
+  content: z.string().default(""),
   image: z.string().url("Image must be a valid URL"),
   liveUrl: z
     .string()
@@ -41,50 +29,20 @@ const ProjectSchema = z.object({
 });
 
 export type ProjectFormData = z.infer<typeof ProjectSchema>;
-export type TechStackItem = z.infer<typeof TechStackItemSchema>;
-
-function parseTechStack(raw: string): TechStackItem[] {
-  if (!raw.trim()) return [];
-  try {
-    const parsed = JSON.parse(raw);
-    return TechStackItemSchema.array().parse(parsed);
-  } catch {
-    return [];
-  }
-}
-
-function parseStringList(raw: string): string[] {
-  return raw
-    .split("\n")
-    .map((item) => item.trim())
-    .filter(Boolean);
-}
-
-function parseGallery(raw: string): string[] {
-  return raw
-    .split("\n")
-    .map((item) => item.trim())
-    .filter(Boolean);
-}
 
 function parseFormData(formData: FormData) {
   return {
     title: formData.get("title") as string,
     slug: formData.get("slug") as string,
     excerpt: formData.get("excerpt") as string,
-    description: formData.get("description") as string,
-    problemStatement: (formData.get("problemStatement") as string) ?? "",
-    solution: (formData.get("solution") as string) ?? "",
-    designProcess: (formData.get("designProcess") as string) ?? "",
-    techStack: parseTechStack((formData.get("techStack") as string) ?? "[]"),
-    keyFeatures: parseStringList((formData.get("keyFeatures") as string) ?? ""),
-    lessonsLearned: (formData.get("lessonsLearned") as string) ?? "",
-    gallery: parseGallery((formData.get("gallery") as string) ?? ""),
+    content: (formData.get("content") as string) ?? "",
     image: formData.get("image") as string,
     liveUrl: formData.get("liveUrl") as string,
     githubUrl: formData.get("githubUrl") as string,
     featured: formData.get("featured") === "on",
-    status: (formData.get("status") as "COMPLETED" | "IN_PROGRESS" | "ARCHIVED") ?? "COMPLETED",
+    status:
+      (formData.get("status") as "COMPLETED" | "IN_PROGRESS" | "ARCHIVED") ??
+      "COMPLETED",
     sortOrder: Number(formData.get("sortOrder") ?? 0),
     tags: (formData.get("tags") as string)
       .split(",")
@@ -199,7 +157,6 @@ export async function createProject(formData: FormData) {
       ...validatedData,
       liveUrl: validatedData.liveUrl || null,
       githubUrl: validatedData.githubUrl || null,
-      lessonsLearned: validatedData.lessonsLearned || null,
     };
 
     const project = await prisma.project.create({
@@ -245,7 +202,6 @@ export async function updateProject(id: string, formData: FormData) {
       ...validatedData,
       liveUrl: validatedData.liveUrl || null,
       githubUrl: validatedData.githubUrl || null,
-      lessonsLearned: validatedData.lessonsLearned || null,
     };
 
     const project = await prisma.project.update({

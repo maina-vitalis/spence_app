@@ -8,27 +8,19 @@ import { Toaster } from "sonner";
 import Footer from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { absoluteUrl, siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://spencecreations.co.ke"),
-  title: "Spence Creations | Developer Portfolio",
-  description:
-    "Portfolio of web development projects, case studies, and tech writing.",
-  keywords: [
-    "web development",
-    "web design",
-    "e-commerce",
-    "UI/UX design",
-    "responsive websites",
-    "custom web applications",
-    "digital solutions",
-    "graphic design",
-    "photoshop",
-    "illustrator",
-  ],
-  authors: [{ name: "Spence Creations's Team" }],
-  creator: "Spence Creations",
-  publisher: "Spence Creations",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.name}`,
+  },
+  description: siteConfig.description,
+  keywords: [...siteConfig.keywords],
+  authors: [{ name: siteConfig.author, url: siteConfig.url }],
+  creator: siteConfig.author,
+  publisher: siteConfig.author,
   formatDetection: {
     email: false,
     address: false,
@@ -48,30 +40,28 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://spencecreations.co.ke",
-    title: "Spence Creations | Web Development & Design Agency",
-    description:
-      "Professional web development and design services specializing in modern, responsive websites, e-commerce solutions, and custom web applications.",
-    siteName: "Spence Creation",
+    url: siteConfig.url,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
     images: [
       {
         url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "Spence Creation Logo",
+        alt: `${siteConfig.name} logo`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Spence Creation | Web Development & Design Agency",
-    description:
-      "Professional web development and design services specializing in modern, responsive websites, e-commerce solutions, and custom web applications.",
+    title: siteConfig.title,
+    description: siteConfig.description,
     images: ["/logo.png"],
-    creator: "@spencecreations",
+    creator: siteConfig.twitter,
   },
   alternates: {
-    canonical: "https://spencecreations.co.ke",
+    canonical: siteConfig.url,
   },
 };
 
@@ -99,17 +89,18 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
-              "@type": "Organization",
-              name: "Spence Creations",
-              url: "https://spencecreations.co.ke",
-              logo: "https://spencecreations.co.ke/logo.png",
-              contactPoint: {
-                "@type": "ContactPoint",
-                telephone: "+254799732696",
-                contactType: "Customer Service",
-                email: "info@spencecreations.co.ke",
+              "@type": "Person",
+              name: siteConfig.name,
+              url: siteConfig.url,
+              image: absoluteUrl("/logo.png"),
+              jobTitle: "Full-Stack Developer",
+              email: siteConfig.email,
+              telephone: siteConfig.phone,
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: siteConfig.location,
               },
-              sameAs: [],
+              sameAs: Object.values(siteConfig.social),
             }),
           }}
         />
@@ -119,15 +110,12 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebSite",
-              url: "https://spencecreations.co.ke",
-              potentialAction: {
-                "@type": "SearchAction",
-                target: {
-                  "@type": "EntryPoint",
-                  urlTemplate:
-                    "https://spencecreations.co.ke/search?q={search_term_string}",
-                },
-                query: "required name=search_term_string",
+              name: siteConfig.name,
+              url: siteConfig.url,
+              description: siteConfig.description,
+              author: {
+                "@type": "Person",
+                name: siteConfig.author,
               },
             }),
           }}

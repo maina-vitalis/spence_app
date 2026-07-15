@@ -47,11 +47,6 @@ const links = [
     description: "Who I am and what I do",
   },
   {
-    href: "/blog",
-    title: "Blog",
-    description: "Tech writing and notes",
-  },
-  {
     href: "/contact",
     title: "Contact",
     description: "Get in touch",

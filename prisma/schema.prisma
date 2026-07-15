@@ -17,52 +17,31 @@ enum ProjectStatus {
 }
 
 model Project {
-  id               String        @id @default(cuid())
-  title            String
-  slug             String        @unique
-  excerpt          String
-  description      String
-  problemStatement String        @default("")
-  solution         String        @default("")
-  designProcess    String        @default("")
-  techStack        Json          @default("[]")
-  keyFeatures      String[]      @default([])
-  lessonsLearned   String?
-  gallery          String[]      @default([])
-  image            String
-  liveUrl          String?
-  githubUrl        String?
-  featured         Boolean       @default(false)
-  status           ProjectStatus @default(COMPLETED)
-  sortOrder        Int           @default(0)
-  tags             String[]
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  id        String        @id @default(cuid())
+  title     String
+  slug      String        @unique
+  excerpt   String
+  content   String        @default("")
+  image     String
+  liveUrl   String?
+  githubUrl String?
+  featured  Boolean       @default(false)
+  status    ProjectStatus @default(COMPLETED)
+  sortOrder Int           @default(0)
+  tags      String[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
 
   @@map("projects")
 }
 
-model BlogPost {
-  id              String     @id @default(cuid())
-  title           String
-  slug            String     @unique
-  content         String
-  excerpt         String
-  featuredImage   String?
-  status          PostStatus @default(DRAFT)
-  categories      String[]
-  tags            String[]
-  metaDescription String?
-  metaKeywords    String[]
-  author          String
-  publishedAt     DateTime?
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime   @updatedAt
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
-  @@map("blog_posts")
-}
-
-enum PostStatus {
-  DRAFT
-  PUBLISHED
+  @@map("users")
 }

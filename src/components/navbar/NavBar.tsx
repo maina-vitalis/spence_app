@@ -64,18 +64,6 @@ function NavBar() {
 
             <NavigationMenuItem>
               <NavigationMenuLink
-                href="/blog"
-                className={cn(
-                  navigationMenuTriggerStyle(),
-                  "rounded-full text-xs"
-                )}
-              >
-                Blog
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-              <NavigationMenuLink
                 href="/contact"
                 className={cn(
                   navigationMenuTriggerStyle(),

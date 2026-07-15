@@ -5,25 +5,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { getAdminEmails } from "@/lib/admin-emails";
 import { getAdminSession } from "@/lib/auth-server";
+import { prisma } from "@/lib/prisma";
 
 export default async function AdminSettingsPage() {
   const session = await getAdminSession();
-  const adminEmails = getAdminEmails();
+  const userCount = await prisma.user.count();
 
   const authConfigured = {
     nextAuthSecret: Boolean(
       process.env.NEXTAUTH_SECRET ?? process.env.AUTH_SECRET
     ),
     nextAuthUrl: Boolean(process.env.NEXTAUTH_URL),
-    adminEmails: adminEmails.length > 0,
-    googleOAuth: Boolean(
-      process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET
-    ),
-    githubOAuth: Boolean(
-      process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET
-    ),
+    adminSeeded: userCount > 0,
   };
 
   return (
@@ -60,16 +54,14 @@ export default async function AdminSettingsPage() {
         <CardHeader>
           <CardTitle>Auth configuration</CardTitle>
           <CardDescription>
-            Environment variables required for admin login
+            Email and password login via NextAuth credentials
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           {[
             { label: "NEXTAUTH_SECRET", ok: authConfigured.nextAuthSecret },
             { label: "NEXTAUTH_URL", ok: authConfigured.nextAuthUrl },
-            { label: "ADMIN_EMAILS", ok: authConfigured.adminEmails },
-            { label: "Google OAuth", ok: authConfigured.googleOAuth },
-            { label: "GitHub OAuth", ok: authConfigured.githubOAuth },
+            { label: "Admin user in database", ok: authConfigured.adminSeeded },
           ].map((item) => (
             <div
               key={item.label}
@@ -88,9 +80,9 @@ export default async function AdminSettingsPage() {
             </div>
           ))}
           <p className="text-xs text-muted-foreground pt-2">
-            Add your email to <code>ADMIN_EMAILS</code> in <code>.env</code> and
-            configure at least one OAuth provider. See <code>.env.example</code>{" "}
-            for the full list.
+            Create or update the admin user by setting{" "}
+            <code>ADMIN_EMAIL</code> and <code>ADMIN_PASSWORD</code> in{" "}
+            <code>.env</code>, then run <code>npm run db:seed</code>.
           </p>
         </CardContent>
       </Card>

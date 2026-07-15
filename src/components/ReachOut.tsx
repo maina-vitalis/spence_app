@@ -41,7 +41,7 @@ const inputAnimation = {
 function ReachOut() {
   const formSchema = z.object({
     name: z.string().min(1, "A name is required"),
-    email: z.string().min(1, "An Email is required"),
+    email: z.string().email("A valid email is required"),
     message: z.string().min(10, "A message is required atleast 10 characters"),
   });
 
@@ -62,10 +62,17 @@ function ReachOut() {
       return resp.data;
     },
     onSuccess: () => {
-      toast.success("Email sent successfully!");
+      toast.success("Message sent! I'll get back to you soon.");
+      form.reset();
     },
-    onError: (error) => {
-      toast.error("Failed to send email. Please try again.");
+    onError: (error: unknown) => {
+      const message =
+        axios.isAxiosError(error) && error.response?.data?.error
+          ? typeof error.response.data.error === "string"
+            ? error.response.data.error
+            : "Please check the form and try again."
+          : "Failed to send message. Please try again.";
+      toast.error(message);
       console.error("Error sending email:", error);
     },
   });

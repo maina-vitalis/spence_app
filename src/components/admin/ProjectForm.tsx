@@ -1,7 +1,6 @@
 "use client";
 
 import { ImageUpload } from "@/components/admin/ImageUpload";
-import { TechStackEditor } from "@/components/admin/TechStackEditor";
 import { TiptapEditor } from "@/components/admin/TiptapEditor";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,7 +23,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { createProject, updateProject } from "@/lib/actions/projects";
-import type { TechStackItem } from "@/lib/actions/projects";
 import { generateSlug } from "@/lib/slug";
 import { Project } from "@/generated/prisma/client";
 import { ArrowLeft, ExternalLink, Loader2 } from "lucide-react";
@@ -38,22 +36,6 @@ interface ProjectFormProps {
   mode: "create" | "edit";
 }
 
-function parseTechStack(value: unknown): TechStackItem[] {
-  if (!Array.isArray(value)) return [];
-  return value
-    .filter(
-      (item): item is TechStackItem =>
-        typeof item === "object" &&
-        item !== null &&
-        "name" in item &&
-        "reason" in item
-    )
-    .map((item) => ({
-      name: String(item.name),
-      reason: String(item.reason),
-    }));
-}
-
 export function ProjectForm({ project, mode }: ProjectFormProps) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -64,12 +46,7 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
   const [status, setStatus] = useState<"COMPLETED" | "IN_PROGRESS" | "ARCHIVED">(
     project?.status ?? "COMPLETED"
   );
-  const [designProcess, setDesignProcess] = useState(
-    project?.designProcess ?? ""
-  );
-  const [techStack, setTechStack] = useState<TechStackItem[]>(
-    parseTechStack(project?.techStack)
-  );
+  const [content, setContent] = useState(project?.content ?? "");
 
   const previewSlug = useMemo(() => {
     if (slug.trim()) return slug;
@@ -89,11 +66,7 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
     setErrors({});
 
     formData.set("status", status);
-    formData.set("designProcess", designProcess);
-    formData.set(
-      "techStack",
-      JSON.stringify(techStack.filter((item) => item.name && item.reason))
-    );
+    formData.set("content", content);
 
     try {
       let result;
@@ -141,7 +114,7 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
               {mode === "create" ? "Document New Project" : "Edit Project"}
             </h1>
             <p className="text-sm text-muted-foreground">
-              Build a full case study for your portfolio
+              Write freely — format text, add images, and embed videos
             </p>
           </div>
         </div>
@@ -158,11 +131,9 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
 
       <form action={handleSubmit}>
         <Tabs defaultValue="basics" className="space-y-6">
-          <TabsList className="grid h-auto w-full grid-cols-2 gap-1 md:grid-cols-5">
+          <TabsList className="grid h-auto w-full grid-cols-3 gap-1">
             <TabsTrigger value="basics">Basics</TabsTrigger>
-            <TabsTrigger value="story">Story</TabsTrigger>
-            <TabsTrigger value="process">Process</TabsTrigger>
-            <TabsTrigger value="stack">Tech Stack</TabsTrigger>
+            <TabsTrigger value="documentation">Documentation</TabsTrigger>
             <TabsTrigger value="media">Media & Links</TabsTrigger>
           </TabsList>
 
@@ -171,7 +142,7 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
               <CardHeader>
                 <CardTitle>Project basics</CardTitle>
                 <CardDescription>
-                  Title, slug, and summary shown on cards
+                  Title, slug, and summary shown on project cards
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -237,33 +208,14 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
                   )}
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="description">
-                    Overview <span className="text-destructive">*</span>
-                  </Label>
-                  <Textarea
-                    id="description"
-                    name="description"
-                    rows={5}
-                    placeholder="High-level overview of the project"
-                    defaultValue={project?.description || ""}
-                    className={errors.description ? "border-destructive" : ""}
-                  />
-                  {errors.description && (
-                    <p className="text-sm text-destructive">
-                      {errors.description[0]}
-                    </p>
-                  )}
-                </div>
-
                 <div className="grid gap-4 md:grid-cols-3">
                   <div className="space-y-2">
                     <Label>Status</Label>
                     <Select
                       value={status}
-                      onValueChange={(value: "COMPLETED" | "IN_PROGRESS" | "ARCHIVED") =>
-                        setStatus(value)
-                      }
+                      onValueChange={(
+                        value: "COMPLETED" | "IN_PROGRESS" | "ARCHIVED"
+                      ) => setStatus(value)}
                     >
                       <SelectTrigger>
                         <SelectValue />
@@ -311,89 +263,17 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
             </Card>
           </TabsContent>
 
-          <TabsContent value="story" className="space-y-6">
+          <TabsContent value="documentation">
             <Card>
               <CardHeader>
-                <CardTitle>Problem & solution</CardTitle>
+                <CardTitle>Project documentation</CardTitle>
                 <CardDescription>
-                  What you were solving and how you approached it
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="problemStatement">The problem</Label>
-                  <Textarea
-                    id="problemStatement"
-                    name="problemStatement"
-                    rows={5}
-                    placeholder="What challenge or pain point did this project address?"
-                    defaultValue={project?.problemStatement || ""}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="solution">The solution</Label>
-                  <Textarea
-                    id="solution"
-                    name="solution"
-                    rows={5}
-                    placeholder="How did you solve it? What was your approach?"
-                    defaultValue={project?.solution || ""}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="keyFeatures">Key features</Label>
-                  <Textarea
-                    id="keyFeatures"
-                    name="keyFeatures"
-                    rows={4}
-                    placeholder="One feature per line"
-                    defaultValue={project?.keyFeatures.join("\n") || ""}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="lessonsLearned">Lessons learned</Label>
-                  <Textarea
-                    id="lessonsLearned"
-                    name="lessonsLearned"
-                    rows={4}
-                    placeholder="What did you learn building this?"
-                    defaultValue={project?.lessonsLearned || ""}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="process">
-            <Card>
-              <CardHeader>
-                <CardTitle>Design process</CardTitle>
-                <CardDescription>
-                  Document your research, wireframes, iterations, and decisions
+                  Document each project your way — headings, images, videos,
+                  lists, and more. Every project can have its own layout.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <TiptapEditor
-                  content={designProcess}
-                  onChange={setDesignProcess}
-                />
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="stack">
-            <Card>
-              <CardHeader>
-                <CardTitle>Tech stack</CardTitle>
-                <CardDescription>
-                  Technologies used and why you chose each one
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <TechStackEditor value={techStack} onChange={setTechStack} />
+                <TiptapEditor content={content} onChange={setContent} />
               </CardContent>
             </Card>
           </TabsContent>
@@ -402,6 +282,9 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
             <Card>
               <CardHeader>
                 <CardTitle>Cover image</CardTitle>
+                <CardDescription>
+                  Shown on project cards and at the top of the case study
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <ImageUpload
@@ -424,20 +307,9 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
 
             <Card>
               <CardHeader>
-                <CardTitle>Gallery & links</CardTitle>
+                <CardTitle>Project links</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="gallery">Gallery images</Label>
-                  <Textarea
-                    id="gallery"
-                    name="gallery"
-                    rows={3}
-                    placeholder="One image URL per line"
-                    defaultValue={project?.gallery.join("\n") || ""}
-                  />
-                </div>
-
                 <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
                     <Label htmlFor="liveUrl">Live URL</Label>

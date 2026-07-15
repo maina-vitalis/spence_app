@@ -30,18 +30,44 @@ import {
   AlignCenter,
   AlignRight,
   Highlighter,
+  Video,
+  Loader2,
+  Minus,
 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 
 interface TiptapEditorProps {
   content: string;
   onChange: (content: string) => void;
 }
 
-export function TiptapEditor({
-  content,
-  onChange,
-}: TiptapEditorProps) {
+function getEmbedUrl(url: string): string | null {
+  const trimmed = url.trim();
+
+  const youtubeMatch = trimmed.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/
+  );
+  if (youtubeMatch) {
+    return `https://www.youtube.com/embed/${youtubeMatch[1]}`;
+  }
+
+  const vimeoMatch = trimmed.match(/vimeo\.com\/(\d+)/);
+  if (vimeoMatch) {
+    return `https://player.vimeo.com/video/${vimeoMatch[1]}`;
+  }
+
+  if (trimmed.includes("/embed/") || trimmed.includes("player.")) {
+    return trimmed;
+  }
+
+  return null;
+}
+
+export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
@@ -100,18 +126,86 @@ export function TiptapEditor({
     }
   };
 
-  const addImage = () => {
+  const addImageFromUrl = () => {
     const url = window.prompt("Enter image URL:");
     if (url) {
       editor.chain().focus().setImage({ src: url }).run();
     }
   };
 
+  const uploadImage = async (file: File) => {
+    const allowedTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/gif",
+      "image/webp",
+    ];
+    if (!allowedTypes.includes(file.type)) {
+      toast.error("Only JPEG, PNG, GIF, and WebP images are allowed.");
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toast.error("Image must be smaller than 5MB.");
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        editor.chain().focus().setImage({ src: result.url }).run();
+        toast.success("Image uploaded");
+      } else {
+        toast.error(result.error || "Failed to upload image");
+      }
+    } catch {
+      toast.error("Failed to upload image");
+    } finally {
+      setIsUploading(false);
+    }
+  };
+
+  const handleImageFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      uploadImage(file);
+    }
+    event.target.value = "";
+  };
+
+  const addVideo = () => {
+    const url = window.prompt("Enter YouTube or Vimeo URL:");
+    if (!url) return;
+
+    const embedUrl = getEmbedUrl(url);
+    if (!embedUrl) {
+      toast.error("Unsupported video URL. Use YouTube or Vimeo links.");
+      return;
+    }
+
+    editor
+      .chain()
+      .focus()
+      .insertContent(
+        `<div class="video-embed" data-video-embed="true"><iframe src="${embedUrl}" allowfullscreen="true" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div><p></p>`
+      )
+      .run();
+  };
+
   return (
     <div className="border border-border rounded-lg overflow-hidden">
-      {/* Toolbar */}
       <div className="bg-muted border-b border-border p-2 flex flex-wrap gap-1">
-        {/* Text Formatting */}
         <Button
           type="button"
           variant={editor.isActive("bold") ? "default" : "ghost"}
@@ -160,30 +254,41 @@ export function TiptapEditor({
 
         <div className="w-px h-8 bg-border mx-1" />
 
-        {/* Headings */}
         <Button
           type="button"
-          variant={editor.isActive("heading", { level: 1 }) ? "default" : "ghost"}
+          variant={
+            editor.isActive("heading", { level: 1 }) ? "default" : "ghost"
+          }
           size="sm"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 1 }).run()
+          }
           title="Heading 1"
         >
           <Heading1 className="h-4 w-4" />
         </Button>
         <Button
           type="button"
-          variant={editor.isActive("heading", { level: 2 }) ? "default" : "ghost"}
+          variant={
+            editor.isActive("heading", { level: 2 }) ? "default" : "ghost"
+          }
           size="sm"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 2 }).run()
+          }
           title="Heading 2"
         >
           <Heading2 className="h-4 w-4" />
         </Button>
         <Button
           type="button"
-          variant={editor.isActive("heading", { level: 3 }) ? "default" : "ghost"}
+          variant={
+            editor.isActive("heading", { level: 3 }) ? "default" : "ghost"
+          }
           size="sm"
-          onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+          onClick={() =>
+            editor.chain().focus().toggleHeading({ level: 3 }).run()
+          }
           title="Heading 3"
         >
           <Heading3 className="h-4 w-4" />
@@ -191,7 +296,6 @@ export function TiptapEditor({
 
         <div className="w-px h-8 bg-border mx-1" />
 
-        {/* Lists */}
         <Button
           type="button"
           variant={editor.isActive("bulletList") ? "default" : "ghost"}
@@ -219,10 +323,18 @@ export function TiptapEditor({
         >
           <Quote className="h-4 w-4" />
         </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => editor.chain().focus().setHorizontalRule().run()}
+          title="Divider"
+        >
+          <Minus className="h-4 w-4" />
+        </Button>
 
         <div className="w-px h-8 bg-border mx-1" />
 
-        {/* Alignment */}
         <Button
           type="button"
           variant={editor.isActive({ textAlign: "left" }) ? "default" : "ghost"}
@@ -234,7 +346,9 @@ export function TiptapEditor({
         </Button>
         <Button
           type="button"
-          variant={editor.isActive({ textAlign: "center" }) ? "default" : "ghost"}
+          variant={
+            editor.isActive({ textAlign: "center" }) ? "default" : "ghost"
+          }
           size="sm"
           onClick={() => editor.chain().focus().setTextAlign("center").run()}
           title="Align Center"
@@ -243,7 +357,9 @@ export function TiptapEditor({
         </Button>
         <Button
           type="button"
-          variant={editor.isActive({ textAlign: "right" }) ? "default" : "ghost"}
+          variant={
+            editor.isActive({ textAlign: "right" }) ? "default" : "ghost"
+          }
           size="sm"
           onClick={() => editor.chain().focus().setTextAlign("right").run()}
           title="Align Right"
@@ -253,7 +369,6 @@ export function TiptapEditor({
 
         <div className="w-px h-8 bg-border mx-1" />
 
-        {/* Insert */}
         <Button
           type="button"
           variant="ghost"
@@ -267,10 +382,33 @@ export function TiptapEditor({
           type="button"
           variant="ghost"
           size="sm"
-          onClick={addImage}
-          title="Add Image"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isUploading}
+          title="Upload Image"
         >
-          <ImageIcon className="h-4 w-4" />
+          {isUploading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <ImageIcon className="h-4 w-4" />
+          )}
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={addImageFromUrl}
+          title="Image from URL"
+        >
+          <span className="text-xs font-medium">URL</span>
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={addVideo}
+          title="Embed Video"
+        >
+          <Video className="h-4 w-4" />
         </Button>
         <Button
           type="button"
@@ -284,7 +422,6 @@ export function TiptapEditor({
 
         <div className="w-px h-8 bg-border mx-1" />
 
-        {/* Undo/Redo */}
         <Button
           type="button"
           variant="ghost"
@@ -307,7 +444,14 @@ export function TiptapEditor({
         </Button>
       </div>
 
-      {/* Editor Content */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleImageFileSelect}
+        className="hidden"
+      />
+
       <EditorContent editor={editor} />
     </div>
   );

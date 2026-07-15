@@ -24,8 +24,8 @@ function Hero() {
             I build <span className="text-primary">modern</span> web experiences.
           </h2>
           <p className="text-muted-foreground text-lg max-w-xl">
-            Full-stack developer sharing projects, design process, and the tech
-            decisions behind each build.
+            Full-stack developer sharing projects, design process, and the
+            stories behind each build.
           </p>
           <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
             <Button
@@ -35,7 +35,7 @@ function Hero() {
               <Link href="/projects">View my work</Link>
             </Button>
             <Button asChild variant="outline" className="rounded-full">
-              <Link href="/blog">Read the blog</Link>
+              <Link href="/contact">Get in touch</Link>
             </Button>
           </div>
         </div>

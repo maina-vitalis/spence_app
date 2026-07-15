@@ -20,8 +20,8 @@ export default function Footer() {
           />
 
           <p className="text-gray-400 text-xs">
-            Developer portfolio showcasing projects, case studies, and writing
-            about modern web development.
+            Developer portfolio showcasing projects and case studies in modern
+            web development.
           </p>
 
           <div className="flex space-x-3">
@@ -71,14 +71,6 @@ export default function Footer() {
                 className="hover:text-primary transition-colors text-xs"
               >
                 About
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/blog"
-                className="hover:text-primary transition-colors text-xs"
-              >
-                Blog
               </Link>
             </li>
             <li>

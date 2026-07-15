@@ -1,30 +1,44 @@
 import ContactFormEmail from "@/components/Email/ContactEmail";
 import { Resend } from "resend";
+import { z } from "zod";
+
+const ContactSchema = z.object({
+  name: z.string().min(1, "Name is required"),
+  email: z.string().email("A valid email is required"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
 
 export async function POST(request: Request) {
   try {
-    // Check if Resend API key is configured
     if (!process.env.RESEND_API_KEY) {
-      return new Response(
-        JSON.stringify({ error: "Email service not configured" }),
-        {
-          status: 500,
-          headers: { "Content-Type": "application/json" },
-        }
+      return Response.json(
+        { error: "Email service not configured" },
+        { status: 500 }
       );
     }
 
+    const body = await request.json();
+    const parsed = ContactSchema.safeParse(body);
+
+    if (!parsed.success) {
+      return Response.json(
+        { error: parsed.error.flatten().fieldErrors },
+        { status: 400 }
+      );
+    }
+
+    const { name, email, message } = parsed.data;
     const resend = new Resend(process.env.RESEND_API_KEY);
 
-    // Parse the request body for dynamic data
-    const body = await request.json();
+    const from =
+      process.env.RESEND_FROM_EMAIL || "Spence Creations <onboarding@resend.dev>";
+    const to = process.env.CONTACT_EMAIL || "mainavitalis65@gmail.com";
 
-    const { name, email, message } = body;
-
-    const data = await resend.emails.send({
-      from: "Ezzfreedomandhope<no-reply@ezzfreedomandhope.or.ke>",
-      to: ["mainavitalis65@gmail.com"],
-      subject: "Contact form request",
+    const result = await resend.emails.send({
+      from,
+      to: [to],
+      replyTo: email,
+      subject: `New contact from ${name}`,
       react: ContactFormEmail({
         name,
         email,
@@ -32,14 +46,20 @@ export async function POST(request: Request) {
       }),
     });
 
-    return new Response(JSON.stringify(data), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    if (result.error) {
+      console.error("Resend API error:", result.error);
+      return Response.json(
+        { error: result.error.message || "Failed to send email" },
+        { status: 500 }
+      );
+    }
+
+    return Response.json({ success: true, id: result.data?.id });
   } catch (error) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" },
-    });
+    console.error("Contact form error:", error);
+    return Response.json(
+      { error: (error as Error).message || "Failed to send email" },
+      { status: 500 }
+    );
   }
 }
