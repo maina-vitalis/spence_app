@@ -168,13 +168,13 @@ export default function ContactPage() {
           <motion.div
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
-            className="shadow-sm p-5 rounded-3xl space-y-5 sm:w-56 min-w-56 w-full bg-indigo-100/50 dark:bg-indigo-500/50"
+            className="shadow-sm p-5 rounded-3xl space-y-5 sm:w-56 min-w-56 w-full bg-muted/50 border border-border"
           >
             <div className="flex gap-3 items-center">
-              <ClockIcon size={40} className="text-indigo-500" />
+              <ClockIcon size={40} className="text-primary" />
               <div>
                 <p className="text-xs">Working Hours</p>
-                <p className="text-indigo-500 font-medium">Open Times</p>
+                <p className="text-primary font-medium">Open Times</p>
               </div>
             </div>
             <div className="text-xs text-gray-500 dark:text-gray-300">
