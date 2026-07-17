@@ -47,6 +47,13 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
     project?.status ?? "COMPLETED"
   );
   const [content, setContent] = useState(project?.content ?? "");
+  const [tags, setTags] = useState(project?.tags.join(", ") ?? "");
+  const [excerpt, setExcerpt] = useState(project?.excerpt ?? "");
+  const [sortOrder, setSortOrder] = useState(String(project?.sortOrder ?? 0));
+  const [featured, setFeatured] = useState(project?.featured ?? false);
+  const [liveUrl, setLiveUrl] = useState(project?.liveUrl ?? "");
+  const [githubUrl, setGithubUrl] = useState(project?.githubUrl ?? "");
+  const [image, setImage] = useState(project?.image ?? "");
 
   const previewSlug = useMemo(() => {
     if (slug.trim()) return slug;
@@ -65,8 +72,21 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
     setIsSubmitting(true);
     setErrors({});
 
+    formData.set("title", title);
+    formData.set("slug", slug);
+    formData.set("excerpt", excerpt);
     formData.set("status", status);
     formData.set("content", content);
+    formData.set("tags", tags);
+    formData.set("sortOrder", sortOrder);
+    if (featured) {
+      formData.set("featured", "on");
+    } else {
+      formData.delete("featured");
+    }
+    formData.set("image", image);
+    formData.set("liveUrl", liveUrl);
+    formData.set("githubUrl", githubUrl);
 
     try {
       let result;
@@ -198,7 +218,8 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
                     name="excerpt"
                     rows={3}
                     placeholder="One-line summary for project cards"
-                    defaultValue={project?.excerpt || ""}
+                    value={excerpt}
+                    onChange={(e) => setExcerpt(e.target.value)}
                     className={errors.excerpt ? "border-destructive" : ""}
                   />
                   {errors.excerpt && (
@@ -234,7 +255,8 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
                       id="sortOrder"
                       name="sortOrder"
                       type="number"
-                      defaultValue={project?.sortOrder ?? 0}
+                      value={sortOrder}
+                      onChange={(e) => setSortOrder(e.target.value)}
                     />
                   </div>
 
@@ -244,7 +266,8 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
                       id="tags"
                       name="tags"
                       placeholder="React, Next.js, TypeScript"
-                      defaultValue={project?.tags.join(", ") || ""}
+                      value={tags}
+                      onChange={(e) => setTags(e.target.value)}
                     />
                   </div>
                 </div>
@@ -254,7 +277,10 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
                     <Checkbox
                       id="featured"
                       name="featured"
-                      defaultChecked={project?.featured || false}
+                      checked={featured}
+                      onCheckedChange={(checked) =>
+                        setFeatured(checked === true)
+                      }
                     />
                     <Label htmlFor="featured">Featured on homepage</Label>
                   </div>
@@ -291,6 +317,7 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
                   label="Image"
                   name="image"
                   defaultValue={project?.image || ""}
+                  onUpload={setImage}
                   required
                   aspectRatio="video"
                   maxSize={5}
@@ -318,7 +345,8 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
                       name="liveUrl"
                       type="url"
                       placeholder="https://project-demo.com"
-                      defaultValue={project?.liveUrl || ""}
+                      value={liveUrl}
+                      onChange={(e) => setLiveUrl(e.target.value)}
                     />
                   </div>
 
@@ -329,7 +357,8 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
                       name="githubUrl"
                       type="url"
                       placeholder="https://github.com/user/repo"
-                      defaultValue={project?.githubUrl || ""}
+                      value={githubUrl}
+                      onChange={(e) => setGithubUrl(e.target.value)}
                     />
                   </div>
                 </div>

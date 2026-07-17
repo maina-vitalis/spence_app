@@ -44,7 +44,7 @@ function parseFormData(formData: FormData) {
       (formData.get("status") as "COMPLETED" | "IN_PROGRESS" | "ARCHIVED") ??
       "COMPLETED",
     sortOrder: Number(formData.get("sortOrder") ?? 0),
-    tags: (formData.get("tags") as string)
+    tags: ((formData.get("tags") as string | null) ?? "")
       .split(",")
       .map((tag) => tag.trim())
       .filter((tag) => tag.length > 0),
