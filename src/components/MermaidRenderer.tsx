@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import mermaid from "mermaid";
-import svgPanZoom from "svg-pan-zoom";
 
 interface MermaidRendererProps {
   content: string;
@@ -66,117 +65,11 @@ export function MermaidRenderer({ content }: MermaidRendererProps) {
 
       try {
         const { svg } = await mermaid.render(id, cleanCode);
-        
-        // Container wrapper
-        const container = document.createElement("div");
-        container.className =
-          "mermaid-wrapper relative my-6 rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm";
-
-        // Controls header bar
-        const toolbar = document.createElement("div");
-        toolbar.className =
-          "flex items-center justify-between px-3 py-1.5 border-b border-border bg-muted/40 text-xs text-muted-foreground select-none";
-        toolbar.innerHTML = `
-          <span class="font-medium tracking-wide uppercase text-[10px]">Diagram</span>
-          <div class="flex items-center gap-1">
-            <button type="button" class="zoom-in px-2 py-0.5 rounded hover:bg-muted font-bold transition-colors" title="Zoom In">+</button>
-            <button type="button" class="zoom-out px-2 py-0.5 rounded hover:bg-muted font-bold transition-colors" title="Zoom Out">-</button>
-            <button type="button" class="zoom-reset px-2 py-0.5 rounded hover:bg-muted transition-colors" title="Reset View">Reset</button>
-          </div>
-        `;
-
-        // SVG viewport area
-        const viewport = document.createElement("div");
-        viewport.className = "w-full h-[450px] cursor-grab active:cursor-grabbing overflow-hidden";
-        viewport.innerHTML = svg;
-
-        const svgElement = viewport.querySelector("svg");
-        if (svgElement) {
-          svgElement.style.width = "100%";
-          svgElement.style.height = "100%";
-          svgElement.style.maxWidth = "100%";
-        }
-
-        container.appendChild(toolbar);
-        container.appendChild(viewport);
-        targetElement.replaceWith(container);
-
-        if (svgElement) {
-          const panZoomInstance = svgPanZoom(svgElement, {
-            zoomEnabled: true,
-            controlIconsEnabled: false,
-            fit: true,
-            center: true,
-            minZoom: 0.5,
-            maxZoom: 10,
-            zoomScaleSensitivity: 0.2,
-            customEventsHandler: {
-              haltEventListeners: ["touchstart", "touchend", "touchmove", "touchleave", "touchcancel"],
-              init: function (options) {
-                const instance = options.instance;
-                let initialScale = 1;
-                let pannedX = 0;
-                let pannedY = 0;
-
-                // Dynamically import Hammer on client
-                import("hammerjs").then((HammerModule) => {
-                  const Hammer = HammerModule.default || HammerModule;
-                  const mc = new Hammer.Manager(options.svgElement);
-
-                  mc.add(new Hammer.Pinch());
-                  mc.add(new Hammer.Pan({ threshold: 0 }));
-
-                  mc.on("panstart panmove", function (ev) {
-                    if (ev.type === "panstart") {
-                      pannedX = 0;
-                      pannedY = 0;
-                    }
-                    instance.panBy({ x: ev.deltaX - pannedX, y: ev.deltaY - pannedY });
-                    pannedX = ev.deltaX;
-                    pannedY = ev.deltaY;
-                  });
-
-                  mc.on("pinchstart pinchmove", function (ev) {
-                    if (ev.type === "pinchstart") {
-                      initialScale = instance.getZoom();
-                      instance.zoomAtPoint(initialScale * ev.scale, {
-                        x: ev.center.x,
-                        y: ev.center.y,
-                      });
-                    } else {
-                      instance.zoomAtPoint(initialScale * ev.scale, {
-                        x: ev.center.x,
-                        y: ev.center.y,
-                      });
-                    }
-                  });
-
-                  // Prevent page scroll when touching diagram
-                  options.svgElement.addEventListener(
-                    "touchmove",
-                    function (e) {
-                      e.preventDefault();
-                    },
-                    { passive: false }
-                  );
-                });
-              },
-              destroy: function () {},
-            },
-          });
-
-          toolbar.querySelector(".zoom-in")?.addEventListener("click", () => {
-            panZoomInstance.zoomIn();
-          });
-          toolbar.querySelector(".zoom-out")?.addEventListener("click", () => {
-            panZoomInstance.zoomOut();
-          });
-          toolbar.querySelector(".zoom-reset")?.addEventListener("click", () => {
-            panZoomInstance.reset();
-            panZoomInstance.fit();
-            panZoomInstance.center();
-          });
-        }
+        const wrapper = document.createElement("div");
+        wrapper.className =
+          "mermaid-diagram flex justify-center my-6 overflow-x-auto p-4 bg-muted/30 rounded-xl border border-border";
+        wrapper.innerHTML = svg;
+        targetElement.replaceWith(wrapper);
       } catch (err) {
         console.error("Mermaid rendering error:", err);
       }
