@@ -9,6 +9,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 
+import { MermaidRenderer } from "@/components/MermaidRenderer";
+
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -113,10 +115,9 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
       </header>
 
       {project.content && (
-        <section
-          className="tiptap-content prose prose-neutral dark:prose-invert max-w-none"
-          dangerouslySetInnerHTML={{ __html: project.content }}
-        />
+        <section>
+          <MermaidRenderer content={project.content} />
+        </section>
       )}
 
       <Separator />

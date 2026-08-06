@@ -43,6 +43,7 @@ import {
   Table as TableIcon,
   Trash2,
   Plus,
+  GitFork,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -240,6 +241,16 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
       .run();
   };
 
+  const addMermaidDiagram = () => {
+    const defaultDiagram = `graph TD\n  A[Start] --> B{Is it working?}\n  B -- Yes --> C[Awesome!]\n  B -- No --> D[Check logs]`;
+    editor
+      .chain()
+      .focus()
+      .toggleCodeBlock()
+      .insertContent(defaultDiagram)
+      .run();
+  };
+
   return (
     <div className="border border-border rounded-lg overflow-hidden">
       <div className="bg-muted border-b border-border p-2 flex flex-wrap gap-1">
@@ -297,6 +308,16 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
           title="Code Block"
         >
           <Code2 className="h-4 w-4" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={addMermaidDiagram}
+          title="Insert Mermaid Diagram"
+        >
+          <GitFork className="h-4 w-4" />
+          <span className="ml-1 text-xs font-semibold">Diagram</span>
         </Button>
 
         <div className="w-px h-8 bg-border mx-1" />

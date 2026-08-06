@@ -5,6 +5,7 @@ import { Clock, Calendar, ArrowLeft, Tag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { Metadata } from "next";
+import { MermaidRenderer } from "@/components/MermaidRenderer";
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
@@ -109,20 +110,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
       {/* Post body */}
       <article className="container mx-auto max-w-3xl px-6 pb-20">
-        <div
-          className="tiptap-content prose prose-neutral dark:prose-invert max-w-none
-            prose-headings:font-bold prose-headings:tracking-tight
-            prose-a:text-primary prose-a:no-underline hover:prose-a:underline
-            prose-img:rounded-xl prose-img:shadow-md
-            prose-pre:bg-[#1e293b] prose-pre:text-[#e2e8f0]
-            prose-code:text-[#e11d48] prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
-            prose-blockquote:border-primary/30 prose-blockquote:text-muted-foreground
-            prose-table:overflow-auto
-            [&_table]:border-collapse [&_th]:border [&_th]:border-border [&_th]:px-3 [&_th]:py-2 [&_th]:bg-muted [&_th]:text-left
-            [&_td]:border [&_td]:border-border [&_td]:px-3 [&_td]:py-2
-            [&_iframe]:w-full [&_iframe]:aspect-video [&_iframe]:rounded-xl"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
+        <MermaidRenderer content={post.content} />
       </article>
     </main>
   );
