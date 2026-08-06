@@ -5,6 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import {
+  BookOpen,
   FolderOpen,
   LayoutDashboard,
   LogOut,
@@ -31,6 +32,11 @@ const navigation = [
     name: "Projects",
     href: "/admin/projects",
     icon: FolderOpen,
+  },
+  {
+    name: "Blog",
+    href: "/admin/blog",
+    icon: BookOpen,
   },
   {
     name: "Settings",
@@ -68,7 +74,10 @@ function SidebarContent() {
       <ScrollArea className="flex-1 px-3 py-4">
         <nav className="space-y-2">
           {navigation.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive =
+              item.href === "/admin"
+                ? pathname === "/admin"
+                : pathname.startsWith(item.href);
             return (
               <Link
                 key={item.name}
