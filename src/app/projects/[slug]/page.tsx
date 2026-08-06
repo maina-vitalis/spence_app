@@ -65,9 +65,10 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
             {project.title}
           </h1>
-          <p className="max-w-3xl text-lg text-muted-foreground">
-            {project.excerpt}
-          </p>
+          <div
+            className="tiptap-content prose prose-neutral dark:prose-invert max-w-none text-lg text-muted-foreground"
+            dangerouslySetInnerHTML={{ __html: project.excerpt }}
+          />
         </div>
 
         <div className="flex flex-wrap gap-3">

@@ -179,6 +179,13 @@ html {
   margin-top: 0.35em;
   margin-bottom: 0.35em;
   line-height: 1.5;
+  min-height: 1em;
+}
+
+/* Ensure empty paragraphs (Enter) render visible vertical line breaks */
+.tiptap-content p:empty::before,
+.tiptap-content p > br:only-child::before {
+  content: "\00a0";
 }
 
 .tiptap-content p:first-child {

@@ -46,7 +46,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   return (
     <main className="min-h-screen bg-background">
       {/* Back link */}
-      <div className="container mx-auto max-w-3xl px-6 pt-10">
+      <div className="container mx-auto max-w-4xl px-6 pt-10">
         <Link
           href="/blog"
           className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
@@ -57,7 +57,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       </div>
 
       {/* Header */}
-      <header className="container mx-auto max-w-3xl px-6 py-10">
+      <header className="container mx-auto max-w-4xl px-6 py-10">
         {/* Tags */}
         {post.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-5">
@@ -74,9 +74,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           {post.title}
         </h1>
 
-        <p className="mt-4 text-xl text-muted-foreground leading-relaxed">
-          {post.excerpt}
-        </p>
+        <div
+          className="tiptap-content prose prose-neutral dark:prose-invert max-w-none mt-4 text-xl text-muted-foreground leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: post.excerpt }}
+        />
 
         <div className="mt-6 flex items-center gap-5 text-sm text-muted-foreground border-b pb-6">
           <span className="flex items-center gap-1.5">

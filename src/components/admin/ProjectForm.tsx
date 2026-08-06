@@ -213,15 +213,7 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
                   <Label htmlFor="excerpt">
                     Excerpt <span className="text-destructive">*</span>
                   </Label>
-                  <Textarea
-                    id="excerpt"
-                    name="excerpt"
-                    rows={3}
-                    placeholder="One-line summary for project cards"
-                    value={excerpt}
-                    onChange={(e) => setExcerpt(e.target.value)}
-                    className={errors.excerpt ? "border-destructive" : ""}
-                  />
+                  <TiptapEditor content={excerpt} onChange={setExcerpt} />
                   {errors.excerpt && (
                     <p className="text-sm text-destructive">
                       {errors.excerpt[0]}
