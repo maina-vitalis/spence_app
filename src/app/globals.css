@@ -174,11 +174,11 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Tiptap Content Styles */
+/* Tiptap Content Styles (MS Word / Natural Document Rhythm) */
 .tiptap-content p {
-  margin-top: 0.75em;
-  margin-bottom: 0.75em;
-  line-height: 1.7;
+  margin-top: 0.35em;
+  margin-bottom: 0.35em;
+  line-height: 1.5;
 }
 
 .tiptap-content p:first-child {
@@ -193,12 +193,12 @@ html {
 .tiptap-content pre {
   background-color: #1e293b;
   color: #e2e8f0;
-  padding: 1rem;
+  padding: 0.85rem 1rem;
   border-radius: 0.5rem;
   overflow-x: auto;
-  margin: 1.5rem 0;
+  margin: 1rem 0;
   font-family: 'Courier New', Courier, monospace;
-  line-height: 1.6;
+  line-height: 1.5;
   white-space: pre;
 }
 
@@ -229,7 +229,7 @@ html {
 .tiptap-content ul,
 .tiptap-content ol {
   padding-left: 1.5rem;
-  margin: 1rem 0;
+  margin: 0.5em 0;
 }
 
 .tiptap-content ul {
@@ -241,37 +241,41 @@ html {
 }
 
 .tiptap-content li {
-  margin: 0.5rem 0;
+  margin: 0.2em 0;
   padding-left: 0.25rem;
+}
+
+.tiptap-content li > p {
+  margin: 0;
 }
 
 /* Nested lists */
 .tiptap-content li > ul,
 .tiptap-content li > ol {
-  margin: 0.5rem 0;
+  margin: 0.25em 0;
 }
 
 /* Blockquotes */
 .tiptap-content blockquote {
   border-left: 4px solid hsl(var(--primary));
   padding-left: 1rem;
-  margin: 1.5rem 0;
+  margin: 1em 0;
   font-style: italic;
   background-color: hsl(var(--muted) / 0.5);
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   border-radius: 0.25rem;
 }
 
-/* Headings spacing */
+/* Headings spacing (Word style: tight bottom gap, natural top gap) */
 .tiptap-content h1,
 .tiptap-content h2,
 .tiptap-content h3,
 .tiptap-content h4,
 .tiptap-content h5,
 .tiptap-content h6 {
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-  line-height: 1.3;
+  margin-top: 1.1em;
+  margin-bottom: 0.3em;
+  line-height: 1.25;
   font-weight: 700;
 }
 

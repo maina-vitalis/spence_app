@@ -138,7 +138,7 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
     editorProps: {
       attributes: {
         class:
-          "prose prose-sm sm:prose lg:prose-lg dark:prose-invert max-w-none min-h-[400px] p-4 focus:outline-none",
+          "prose prose-neutral dark:prose-invert max-w-none min-h-[400px] p-4 focus:outline-none [&_p]:my-[0.35em] [&_p]:leading-[1.5] [&_h1]:mt-[1.1em] [&_h1]:mb-[0.3em] [&_h2]:mt-[1.1em] [&_h2]:mb-[0.3em] [&_h3]:mt-[1.1em] [&_h3]:mb-[0.3em] [&_ul]:my-[0.5em] [&_ol]:my-[0.5em] [&_li]:my-[0.2em]",
       },
     },
     onUpdate: ({ editor }) => {
