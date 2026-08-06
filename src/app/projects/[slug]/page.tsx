@@ -113,11 +113,7 @@ export default async function ProjectDetailPage({ params }: ProjectPageProps) {
 
       {project.content && (
         <section
-          className="tiptap-content prose prose-neutral dark:prose-invert max-w-none
-            prose-p:my-2 prose-p:leading-relaxed
-            prose-headings:mt-6 prose-headings:mb-2 prose-headings:font-bold prose-headings:tracking-tight
-            prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5
-            prose-pre:my-3 prose-table:my-4 prose-hr:my-6"
+          className="tiptap-content prose prose-neutral dark:prose-invert max-w-none"
           dangerouslySetInnerHTML={{ __html: project.content }}
         />
       )}

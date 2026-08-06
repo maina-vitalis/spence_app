@@ -1,6 +1,6 @@
 "use client";
 
-import { TinyMCEEditor } from "@/components/admin/TinyMCEEditor";
+import { TiptapEditor } from "@/components/admin/TiptapEditor";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { Button } from "@/components/ui/button";
 import {
@@ -274,11 +274,9 @@ export function BlogForm({ post, mode }: BlogFormProps) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <TinyMCEEditor
+                <TiptapEditor
                   content={content}
                   onChange={setContent}
-                  height={700}
-                  placeholder="Start writing your blog post here..."
                 />
               </CardContent>
             </Card>

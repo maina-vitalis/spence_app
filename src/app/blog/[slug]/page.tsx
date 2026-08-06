@@ -109,14 +109,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {/* Post body */}
       <article className="container mx-auto max-w-3xl px-6 pb-20">
         <div
-          className="prose prose-neutral dark:prose-invert max-w-none
-            prose-p:my-2 prose-p:leading-relaxed
-            prose-headings:mt-6 prose-headings:mb-2 prose-headings:font-bold prose-headings:tracking-tight
-            prose-ul:my-2 prose-ol:my-2 prose-li:my-0.5
-            prose-pre:my-3 prose-pre:bg-[#1e293b] prose-pre:text-[#e2e8f0]
-            prose-table:my-4 prose-hr:my-6
+          className="tiptap-content prose prose-neutral dark:prose-invert max-w-none
+            prose-headings:font-bold prose-headings:tracking-tight
             prose-a:text-primary prose-a:no-underline hover:prose-a:underline
             prose-img:rounded-xl prose-img:shadow-md
+            prose-pre:bg-[#1e293b] prose-pre:text-[#e2e8f0]
             prose-code:text-[#e11d48] prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
             prose-blockquote:border-primary/30 prose-blockquote:text-muted-foreground
             prose-table:overflow-auto

@@ -1,7 +1,7 @@
 "use client";
 
 import { ImageUpload } from "@/components/admin/ImageUpload";
-import { TinyMCEEditor } from "@/components/admin/TinyMCEEditor";
+import { TiptapEditor } from "@/components/admin/TiptapEditor";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -299,7 +299,7 @@ export function ProjectForm({ project, mode }: ProjectFormProps) {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <TinyMCEEditor content={content} onChange={setContent} height={600} />
+                <TiptapEditor content={content} onChange={setContent} />
               </CardContent>
             </Card>
           </TabsContent>
