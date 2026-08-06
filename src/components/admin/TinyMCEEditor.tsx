@@ -89,7 +89,7 @@ export function TinyMCEEditor({
         onInit={(_evt, editor: TinyMCEEditorType) => {
           editorRef.current = editor;
         }}
-        initialValue={content}
+        value={content}
         onEditorChange={(newContent) => {
           onChange(newContent);
         }}
