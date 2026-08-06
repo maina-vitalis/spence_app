@@ -110,6 +110,59 @@ export function MermaidRenderer({ content }: MermaidRendererProps) {
             minZoom: 0.5,
             maxZoom: 10,
             zoomScaleSensitivity: 0.2,
+            customEventsHandler: {
+              haltEventListeners: ["touchstart", "touchend", "touchmove", "touchleave", "touchcancel"],
+              init: function (options) {
+                const instance = options.instance;
+                let initialScale = 1;
+                let pannedX = 0;
+                let pannedY = 0;
+
+                // Dynamically import Hammer on client
+                import("hammerjs").then((HammerModule) => {
+                  const Hammer = HammerModule.default || HammerModule;
+                  const mc = new Hammer.Manager(options.svgElement);
+
+                  mc.add(new Hammer.Pinch());
+                  mc.add(new Hammer.Pan({ threshold: 0 }));
+
+                  mc.on("panstart panmove", function (ev) {
+                    if (ev.type === "panstart") {
+                      pannedX = 0;
+                      pannedY = 0;
+                    }
+                    instance.panBy({ x: ev.deltaX - pannedX, y: ev.deltaY - pannedY });
+                    pannedX = ev.deltaX;
+                    pannedY = ev.deltaY;
+                  });
+
+                  mc.on("pinchstart pinchmove", function (ev) {
+                    if (ev.type === "pinchstart") {
+                      initialScale = instance.getZoom();
+                      instance.zoomAtPoint(initialScale * ev.scale, {
+                        x: ev.center.x,
+                        y: ev.center.y,
+                      });
+                    } else {
+                      instance.zoomAtPoint(initialScale * ev.scale, {
+                        x: ev.center.x,
+                        y: ev.center.y,
+                      });
+                    }
+                  });
+
+                  // Prevent page scroll when touching diagram
+                  options.svgElement.addEventListener(
+                    "touchmove",
+                    function (e) {
+                      e.preventDefault();
+                    },
+                    { passive: false }
+                  );
+                });
+              },
+              destroy: function () {},
+            },
           });
 
           toolbar.querySelector(".zoom-in")?.addEventListener("click", () => {
