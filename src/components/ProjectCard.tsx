@@ -25,6 +25,11 @@ function formatStatus(status: string) {
   return status.replace(/_/g, " ").toLowerCase();
 }
 
+function stripHtml(html: string): string {
+  if (!html) return "";
+  return html.replace(/<[^>]*>?/gm, "").trim();
+}
+
 export function ProjectCard({
   title,
   excerpt,
@@ -42,17 +47,19 @@ export function ProjectCard({
   const href = `/projects/${slug}`;
   const isHero = variant === "hero";
   const isWide = variant === "wide";
+  const cleanExcerpt = stripHtml(excerpt);
 
   if (isHero) {
     return (
       <Link
         href={href}
         className={cn(
-          "group relative block overflow-hidden rounded-2xl border border-border bg-card",
+          "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-sm hover:shadow-md transition-all md:block",
           className
         )}
       >
-        <div className="relative aspect-[16/7] sm:aspect-[21/9] w-full">
+        {/* Mobile View: Dedicated Image Container */}
+        <div className="relative aspect-[16/9] w-full min-h-[200px] sm:min-h-[260px] md:min-h-[380px]">
           <Image
             src={image || "/placeholder.svg?height=400&width=1200"}
             alt={title}
@@ -61,51 +68,52 @@ export function ProjectCard({
             className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-transparent to-transparent" />
+          {/* Overlay gradient for desktop readability */}
+          <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-background via-background/60 to-transparent" />
+        </div>
 
-          <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10">
-            <div className="flex flex-wrap items-center gap-2 mb-4">
-              {featured && (
-                <Badge className="bg-primary text-primary-foreground border-0">
-                  <Star className="h-3 w-3 mr-1 fill-current" />
-                  Featured
-                </Badge>
-              )}
-              {status && (
-                <Badge variant="outline" className="capitalize bg-background/60 backdrop-blur-sm">
-                  {formatStatus(status)}
-                </Badge>
-              )}
-              {tags.slice(0, 3).map((tag) => (
-                <Badge
-                  key={tag}
-                  variant="secondary"
-                  className="bg-background/60 backdrop-blur-sm text-xs"
-                >
-                  {tag}
-                </Badge>
-              ))}
-            </div>
+        {/* Content Section (Below image on mobile, overlaid on desktop) */}
+        <div className="flex flex-col justify-end p-4 sm:p-6 md:absolute md:inset-0 md:p-8">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-2 sm:mb-3">
+            {featured && (
+              <Badge className="bg-primary text-primary-foreground border-0 text-[11px] sm:text-xs">
+                <Star className="h-3 w-3 mr-1 fill-current" />
+                Featured
+              </Badge>
+            )}
+            {status && (
+              <Badge variant="outline" className="capitalize text-[11px] sm:text-xs bg-background/80 backdrop-blur-sm">
+                {formatStatus(status)}
+              </Badge>
+            )}
+            {tags.slice(0, 3).map((tag) => (
+              <Badge
+                key={tag}
+                variant="secondary"
+                className="bg-secondary/80 text-[10px] sm:text-xs"
+              >
+                {tag}
+              </Badge>
+            ))}
+          </div>
 
-            <div className="flex items-end justify-between gap-6">
-              <div className="space-y-3 max-w-3xl">
-                {index !== undefined && (
-                  <span className="text-sm font-mono text-muted-foreground">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                )}
-                <h2 className="text-2xl sm:text-4xl font-bold tracking-tight group-hover:text-primary transition-colors">
-                  {title}
-                </h2>
-                <p className="text-muted-foreground text-sm sm:text-base line-clamp-2 max-w-2xl">
-                  {excerpt}
-                </p>
-              </div>
-              <span className="hidden sm:flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-border bg-background/80 backdrop-blur-sm transition-colors group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary">
-                <ArrowUpRight className="h-5 w-5" />
-              </span>
+          <div className="flex items-end justify-between gap-4">
+            <div className="space-y-1.5 max-w-3xl">
+              {index !== undefined && (
+                <span className="text-[11px] sm:text-xs font-mono text-muted-foreground">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+              )}
+              <h2 className="text-lg sm:text-2xl md:text-4xl font-bold tracking-tight group-hover:text-primary transition-colors line-clamp-2">
+                {title}
+              </h2>
+              <p className="text-muted-foreground text-xs sm:text-sm line-clamp-2 max-w-2xl leading-relaxed">
+                {cleanExcerpt}
+              </p>
             </div>
+            <span className="flex h-8 w-8 sm:h-11 sm:w-11 shrink-0 items-center justify-center rounded-full border border-border bg-background/80 backdrop-blur-sm transition-colors group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary">
+              <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5" />
+            </span>
           </div>
         </div>
       </Link>
@@ -117,22 +125,22 @@ export function ProjectCard({
       <Link
         href={href}
         className={cn(
-          "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-primary/40 md:flex-row",
+          "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:border-primary/40 md:flex-row shadow-sm hover:shadow-md",
           className
         )}
       >
-        <div className="relative aspect-[16/10] w-full md:aspect-auto md:w-[58%] md:min-h-[280px]">
+        <div className="relative aspect-[16/9] w-full md:aspect-auto md:w-[48%] md:min-h-[240px]">
           <Image
             src={image || "/placeholder.svg?height=280&width=500"}
             alt={title}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-            sizes="(max-width: 768px) 100vw, 58vw"
+            sizes="(max-width: 768px) 100vw, 48vw"
           />
         </div>
 
-        <div className="flex flex-1 flex-col justify-between gap-4 p-5 sm:p-6">
-          <div className="space-y-3">
+        <div className="flex flex-1 flex-col justify-between gap-3 p-4 sm:p-6">
+          <div className="space-y-2.5">
             <div className="flex items-center justify-between gap-3">
               <div className="flex flex-wrap gap-1.5">
                 {featured && (
@@ -154,15 +162,17 @@ export function ProjectCard({
               )}
             </div>
 
-            <h3 className="text-xl font-semibold tracking-tight group-hover:text-primary transition-colors">
+            <h3 className="text-lg sm:text-xl font-semibold tracking-tight group-hover:text-primary transition-colors line-clamp-2">
               {title}
             </h3>
-            <p className="text-sm text-muted-foreground line-clamp-3">{excerpt}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 sm:line-clamp-3">
+              {cleanExcerpt}
+            </p>
 
             {tags.length > 0 && (
-              <div className="flex flex-wrap gap-1.5">
-                {tags.slice(0, 4).map((tag) => (
-                  <Badge key={tag} variant="secondary" className="text-xs">
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {tags.slice(0, 3).map((tag) => (
+                  <Badge key={tag} variant="secondary" className="text-[11px] sm:text-xs">
                     {tag}
                   </Badge>
                 ))}
@@ -170,8 +180,8 @@ export function ProjectCard({
             )}
           </div>
 
-          <div className="flex items-center justify-between border-t border-border pt-4">
-            <span className="text-sm font-medium text-primary">View case study</span>
+          <div className="flex items-center justify-between border-t border-border pt-3">
+            <span className="text-xs sm:text-sm font-medium text-primary">View case study</span>
             <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary" />
           </div>
         </div>
@@ -183,11 +193,11 @@ export function ProjectCard({
     <Link
       href={href}
       className={cn(
-        "group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-colors hover:border-primary/40",
+        "group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:border-primary/40 shadow-sm hover:shadow-md",
         className
       )}
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden">
+      <div className="relative aspect-[16/10] w-full overflow-hidden">
         <Image
           src={image || "/placeholder.svg?height=300&width=400"}
           alt={title}
@@ -195,7 +205,7 @@ export function ProjectCard({
           className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
 
         <div className="absolute top-3 left-3 right-3 flex items-start justify-between gap-2">
           {index !== undefined && (
@@ -212,10 +222,10 @@ export function ProjectCard({
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col gap-4 p-5">
+      <div className="flex flex-1 flex-col gap-3 p-4 sm:p-5">
         <div className="space-y-2">
-          <div className="flex items-center gap-2">
-            <h3 className="font-semibold tracking-tight group-hover:text-primary transition-colors line-clamp-1">
+          <div className="flex items-center justify-between gap-2">
+            <h3 className="font-semibold tracking-tight group-hover:text-primary transition-colors line-clamp-1 text-base sm:text-lg">
               {title}
             </h3>
             {status && (
@@ -224,21 +234,21 @@ export function ProjectCard({
               </Badge>
             )}
           </div>
-          <p className="text-sm text-muted-foreground line-clamp-2">{excerpt}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2">{cleanExcerpt}</p>
         </div>
 
         {tags.length > 0 && (
-          <div className="flex flex-wrap gap-1.5">
+          <div className="flex flex-wrap gap-1.5 pt-1">
             {tags.slice(0, 3).map((tag) => (
-              <Badge key={tag} variant="secondary" className="text-xs">
+              <Badge key={tag} variant="secondary" className="text-[11px] sm:text-xs">
                 {tag}
               </Badge>
             ))}
           </div>
         )}
 
-        <div className="mt-auto flex items-center justify-between border-t border-border pt-4">
-          <span className="text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
+        <div className="mt-auto flex items-center justify-between border-t border-border pt-3">
+          <span className="text-xs sm:text-sm font-medium text-muted-foreground group-hover:text-primary transition-colors">
             View case study
           </span>
           <ArrowUpRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-primary" />
