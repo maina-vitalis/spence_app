@@ -9,6 +9,12 @@ import TextAlign from "@tiptap/extension-text-align";
 import { TextStyle } from "@tiptap/extension-text-style";
 import Color from "@tiptap/extension-color";
 import Highlight from "@tiptap/extension-highlight";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import { common, createLowlight } from "lowlight";
 import { Button } from "@/components/ui/button";
 import {
   Bold,
@@ -16,6 +22,7 @@ import {
   Underline as UnderlineIcon,
   Strikethrough,
   Code,
+  Code2,
   Heading1,
   Heading2,
   Heading3,
@@ -33,9 +40,14 @@ import {
   Video,
   Loader2,
   Minus,
+  Table as TableIcon,
+  Trash2,
+  Plus,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+
+const lowlight = createLowlight(common);
 
 interface TiptapEditorProps {
   content: string;
@@ -75,6 +87,7 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
         heading: {
           levels: [1, 2, 3],
         },
+        codeBlock: false,
       }),
       Underline,
       Link.configure({
@@ -95,6 +108,30 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
       Color,
       Highlight.configure({
         multicolor: true,
+      }),
+      Table.configure({
+        resizable: true,
+        HTMLAttributes: {
+          class: "border-collapse border border-border my-4 w-full",
+        },
+      }),
+      TableRow,
+      TableHeader.configure({
+        HTMLAttributes: {
+          class: "border border-border bg-muted p-2 font-semibold text-left",
+        },
+      }),
+      TableCell.configure({
+        HTMLAttributes: {
+          class: "border border-border p-2",
+        },
+      }),
+      CodeBlockLowlight.configure({
+        lowlight,
+        HTMLAttributes: {
+          class:
+            "bg-[#1e293b] text-[#e2e8f0] p-4 rounded-lg my-4 font-mono text-sm overflow-x-auto",
+        },
       }),
     ],
     content,
@@ -133,7 +170,7 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
     }
   };
 
-  const uploadImage = async (file: File) => {
+  const uploadImageToCloudinary = async (file: File) => {
     const allowedTypes = [
       "image/jpeg",
       "image/jpg",
@@ -163,14 +200,14 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
 
       const result = await response.json();
 
-      if (result.success) {
+      if (result.success && result.url) {
         editor.chain().focus().setImage({ src: result.url }).run();
-        toast.success("Image uploaded");
+        toast.success("Image uploaded to Cloudinary");
       } else {
         toast.error(result.error || "Failed to upload image");
       }
     } catch {
-      toast.error("Failed to upload image");
+      toast.error("Failed to upload image to Cloudinary");
     } finally {
       setIsUploading(false);
     }
@@ -179,7 +216,7 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
   const handleImageFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      uploadImage(file);
+      uploadImageToCloudinary(file);
     }
     event.target.value = "";
   };
@@ -206,6 +243,7 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
   return (
     <div className="border border-border rounded-lg overflow-hidden">
       <div className="bg-muted border-b border-border p-2 flex flex-wrap gap-1">
+        {/* Text formatting */}
         <Button
           type="button"
           variant={editor.isActive("bold") ? "default" : "ghost"}
@@ -247,13 +285,23 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
           variant={editor.isActive("code") ? "default" : "ghost"}
           size="sm"
           onClick={() => editor.chain().focus().toggleCode().run()}
-          title="Code"
+          title="Inline Code"
         >
           <Code className="h-4 w-4" />
+        </Button>
+        <Button
+          type="button"
+          variant={editor.isActive("codeBlock") ? "default" : "ghost"}
+          size="sm"
+          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+          title="Code Block"
+        >
+          <Code2 className="h-4 w-4" />
         </Button>
 
         <div className="w-px h-8 bg-border mx-1" />
 
+        {/* Headings */}
         <Button
           type="button"
           variant={
@@ -296,6 +344,7 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
 
         <div className="w-px h-8 bg-border mx-1" />
 
+        {/* Lists & Quotes */}
         <Button
           type="button"
           variant={editor.isActive("bulletList") ? "default" : "ghost"}
@@ -335,6 +384,57 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
 
         <div className="w-px h-8 bg-border mx-1" />
 
+        {/* Tables */}
+        <Button
+          type="button"
+          variant={editor.isActive("table") ? "default" : "ghost"}
+          size="sm"
+          onClick={() =>
+            editor
+              .chain()
+              .focus()
+              .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+              .run()
+          }
+          title="Insert Table (3x3)"
+        >
+          <TableIcon className="h-4 w-4" />
+        </Button>
+        {editor.isActive("table") && (
+          <>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => editor.chain().focus().addRowAfter().run()}
+              title="Add Row"
+            >
+              <Plus className="h-3 w-3 mr-1" /> Row
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => editor.chain().focus().addColumnAfter().run()}
+              title="Add Column"
+            >
+              <Plus className="h-3 w-3 mr-1" /> Col
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={() => editor.chain().focus().deleteTable().run()}
+              title="Delete Table"
+            >
+              <Trash2 className="h-4 w-4 text-destructive" />
+            </Button>
+          </>
+        )}
+
+        <div className="w-px h-8 bg-border mx-1" />
+
+        {/* Alignment */}
         <Button
           type="button"
           variant={editor.isActive({ textAlign: "left" }) ? "default" : "ghost"}
@@ -369,6 +469,7 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
 
         <div className="w-px h-8 bg-border mx-1" />
 
+        {/* Links, Media & Highlights */}
         <Button
           type="button"
           variant="ghost"
@@ -384,7 +485,7 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
           size="sm"
           onClick={() => fileInputRef.current?.click()}
           disabled={isUploading}
-          title="Upload Image"
+          title="Upload Image to Cloudinary"
         >
           {isUploading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -422,6 +523,7 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
 
         <div className="w-px h-8 bg-border mx-1" />
 
+        {/* Undo / Redo */}
         <Button
           type="button"
           variant="ghost"
@@ -456,3 +558,4 @@ export function TiptapEditor({ content, onChange }: TiptapEditorProps) {
     </div>
   );
 }
+
