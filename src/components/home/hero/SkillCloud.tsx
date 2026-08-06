@@ -62,7 +62,7 @@ const cloudProps: Omit<ICloud, "children"> = {
 
   canvasProps: {
     style: {
-      maxWidth: "90%",
+      maxWidth: "80%",
       width: "100%",
     },
   },
@@ -71,7 +71,7 @@ const cloudProps: Omit<ICloud, "children"> = {
     reverse: true,
     depth: 1.2,
     wheelZoom: false,
-    imageScale: 1.4,
+    imageScale: 1.0,
     activeCursor: "default",
     tooltip: "native",
     initial: [0.1, -0.1],
@@ -94,7 +94,7 @@ export function IconCloud() {
       return Object.values(icons.simpleIcons).map((icon) =>
         renderSimpleIcon({
           icon,
-          size: 90,
+          size: 65,
           minContrastRatio: 0,
           // bgHex: "transparent",
           fallbackHex: "#4B5563",
