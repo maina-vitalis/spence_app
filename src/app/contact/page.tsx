@@ -146,7 +146,7 @@ export default function ContactPage() {
 
           {/* Mail Card */}
           <motion.a
-            href="mailto:info@spencecreations.co.ke"
+            href="mailto:mainavitalis65@gmail.com"
             variants={fadeInUp}
             whileHover={{ scale: 1.05 }}
             className="shadow-sm p-5 rounded-3xl space-y-5 sm:w-56 min-w-56 w-full bg-blue-100/50 dark:bg-blue-900/50"

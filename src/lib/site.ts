@@ -6,7 +6,7 @@ export const siteConfig = {
   url: "https://vitalismaina.me",
   domain: "vitalismaina.me",
   author: "Vitalis Maina",
-  email: "hello@vitalismaina.me",
+  email: "mainavitalis65@gmail.com",
   phone: "+254799732696",
   location: "Nairobi, Kenya",
   twitter: "@vitalismaina",

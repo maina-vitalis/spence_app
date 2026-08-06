@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, Mail, ArrowUpRight, Code2 } from "lucide-react";
+import { MapPin, Mail, ArrowUpRight } from "lucide-react";
 import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { siteConfig } from "@/lib/site";
@@ -142,12 +142,8 @@ export default function Footer() {
       </div>
 
       {/* Bottom Bar */}
-      <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-muted-foreground">
+      <div className="pt-8 text-left text-xs text-muted-foreground">
         <p>© {new Date().getFullYear()} {siteConfig.name}. All rights reserved.</p>
-        <div className="flex items-center gap-1.5">
-          <Code2 size={14} className="text-primary" />
-          <span>Designed & Built with Next.js & React</span>
-        </div>
       </div>
     </footer>
   );
