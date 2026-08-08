@@ -1,8 +1,8 @@
 export const siteConfig = {
   name: "Vitalis Maina",
-  title: "Vitalis Maina | Developer Portfolio",
+  title: "Vitalis Maina | Developer Portfolio & Tech Blog",
   description:
-    "Portfolio of web projects and case studies by Vitalis Maina.",
+    "Full-stack developer portfolio and tech blog by Vitalis Maina. Featuring web projects, case studies, and insights on AI, cloud computing, and modern software development.",
   url: "https://vitalismaina.me",
   domain: "vitalismaina.me",
   author: "Vitalis Maina",
@@ -19,6 +19,14 @@ export const siteConfig = {
     "React",
     "TypeScript",
     "case studies",
+    "tech blog",
+    "software engineering",
+    "artificial intelligence",
+    "cloud computing",
+    "cybersecurity",
+    "developer tutorials",
+    "programming",
+    "web applications",
   ],
   social: {
     github: "https://github.com/vitalismaina",
