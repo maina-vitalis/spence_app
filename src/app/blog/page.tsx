@@ -47,7 +47,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 function stripHtml(html: string): string {
   if (!html) return "";
