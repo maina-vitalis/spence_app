@@ -42,6 +42,11 @@ const links = [
     description: "Project case studies",
   },
   {
+    href: "/blog",
+    title: "Blog",
+    description: "Tech insights & tutorials",
+  },
+  {
     href: "/about-us",
     title: "About",
     description: "Who I am and what I do",
