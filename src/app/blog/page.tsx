@@ -174,21 +174,17 @@ export default async function BlogPage() {
                 return (
                   <article
                     key={post.id}
-                    className={`group relative flex flex-col gap-4 sm:gap-6 ${
-                      index === 0 && post.coverImage
-                        ? "md:flex-row md:gap-8"
-                        : "sm:flex-row sm:gap-6"
-                    } rounded-2xl border border-border bg-card p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-200`}
+                    className={`group relative flex flex-col gap-4 sm:gap-5 rounded-2xl border border-border bg-card p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-200`}
                   >
                     {/* Cover image */}
                     {post.coverImage && (
                       <Link
                         href={`/blog/${post.slug}`}
-                        className={`flex-shrink-0 overflow-hidden rounded-xl ${
+                        className={`block overflow-hidden rounded-xl ${
                           index === 0
-                            ? "md:w-72 md:h-48 aspect-video sm:aspect-auto h-44 sm:h-48"
-                            : "sm:w-40 sm:h-28 aspect-video sm:aspect-auto h-40"
-                        } bg-muted block`}
+                            ? "aspect-[2/1]"
+                            : "aspect-video"
+                        } bg-muted`}
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
